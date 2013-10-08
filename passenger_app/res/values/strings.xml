@@ -31,6 +31,8 @@
         <item>Maestro</item>
     </string-array>
 
+    <!-- Main Screen -->
+    <string name="title_activity_main">Bus Phone</string>
     
 
 </resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Global Strings -->
+    <string name="app_name">Bus Phone</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Sign In Screen -->
+    <string name="login_username_label">User</string>
+    <string name="login_password_label">Password</string>
+    <string name="sign_in_button_text">Sign In</string>
+
+</resources>

@@ -85,7 +85,7 @@
             android:id="@+id/newCreditCardLabel"
             android:layout_width="fill_parent"
             android:layout_height="60dip"
-            android:layout_gravity="center"
+            android:layout_gravity="top|center_horizontal"
             android:text="@string/new_credit_card_info_label" />
 
         <TableLayout
@@ -101,7 +101,8 @@
                     android:id="@+id/newCreditCardTypeSpinner"
                     android:layout_width="fill_parent"
    			 		android:layout_height="wrap_content"
-   			 		android:layout_weight="1"/>
+   			 		android:layout_weight="1"
+   			 		android:entries="@array/credit_card_types"/>
                 
             </TableRow>
 
@@ -126,6 +127,14 @@
                 android:layout_height="wrap_content" >
                 
                 <!-- Tutorial here: http://www.codinguser.com/2012/06/time-and-date-inputs-in-android/ -->
+                <EditText 
+                    android:id="@+id/newCreditCardValidityEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dip"
+                    android:layout_weight="1"
+                    android:inputType="date"
+                    android:hint="@string/new_credit_card_validity_label"/>
+                
                 
             </TableRow>
         </TableLayout>
