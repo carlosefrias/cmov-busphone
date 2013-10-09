@@ -27,31 +27,53 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090013;
-        public static final int confirmPasswordEditText=0x7f090009;
-        public static final int confirmPasswordRow=0x7f090008;
-        public static final int loginPasswordEditText=0x7f090003;
-        public static final int loginUsernameEditText=0x7f090001;
-        public static final int newCreditCardLabel=0x7f09000c;
-        public static final int newCreditCardNumberEditText=0x7f090010;
-        public static final int newCreditCardNumberRow=0x7f09000f;
-        public static final int newCreditCardTypeRow=0x7f09000d;
-        public static final int newCreditCardTypeSpinner=0x7f09000e;
-        public static final int newCreditCardValidityEditText=0x7f090012;
-        public static final int newCreditCardValidityRow=0x7f090011;
-        public static final int newPasswordEditText=0x7f090007;
-        public static final int newPasswordRow=0x7f090006;
-        public static final int newRealnameEditText=0x7f09000b;
-        public static final int newRealnameRow=0x7f09000a;
-        public static final int newUsernameEditText=0x7f090005;
-        public static final int newUsernameRow=0x7f090004;
-        public static final int passwordRow=0x7f090002;
-        public static final int usernameRow=0x7f090000;
+        public static final int action_settings=0x7f090016;
+        public static final int confirmPasswordEditText=0x7f09000b;
+        public static final int confirmPasswordRow=0x7f09000a;
+        public static final int itemoption_detail=0x7f090015;
+        public static final int itemoption_detail_container=0x7f090000;
+        public static final int itemoption_list=0x7f090001;
+        public static final int loginPasswordEditText=0x7f090005;
+        public static final int loginUsernameEditText=0x7f090003;
+        public static final int newCreditCardLabel=0x7f09000e;
+        public static final int newCreditCardNumberEditText=0x7f090012;
+        public static final int newCreditCardNumberRow=0x7f090011;
+        public static final int newCreditCardTypeRow=0x7f09000f;
+        public static final int newCreditCardTypeSpinner=0x7f090010;
+        public static final int newCreditCardValidityEditText=0x7f090014;
+        public static final int newCreditCardValidityRow=0x7f090013;
+        public static final int newPasswordEditText=0x7f090009;
+        public static final int newPasswordRow=0x7f090008;
+        public static final int newRealnameEditText=0x7f09000d;
+        public static final int newRealnameRow=0x7f09000c;
+        public static final int newUsernameEditText=0x7f090007;
+        public static final int newUsernameRow=0x7f090006;
+        public static final int passwordRow=0x7f090004;
+        public static final int usernameRow=0x7f090002;
     }
     public static final class layout {
-        public static final int activity_login=0x7f030000;
-        public static final int activity_main=0x7f030001;
-        public static final int activity_sign_up=0x7f030002;
+        public static final int activity_itemoption_detail=0x7f030000;
+        /** 
+    Layout alias to replace the single-pane version of the layout with a
+    two-pane version on Large screens.
+
+    For more on layout aliases, see:
+    http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
+    
+
+    Layout alias to replace the single-pane version of the layout with a
+    two-pane version on Large screens.
+
+    For more on layout aliases, see:
+    http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
+    
+         */
+        public static final int activity_itemoption_list=0x7f030001;
+        public static final int activity_itemoption_twopane=0x7f030002;
+        public static final int activity_login=0x7f030003;
+        public static final int activity_main=0x7f030004;
+        public static final int activity_sign_up=0x7f030005;
+        public static final int fragment_itemoption_detail=0x7f030006;
     }
     public static final class menu {
         public static final int login=0x7f080000;
@@ -63,9 +85,9 @@ public final class R {
         /**  Global Strings 
          */
         public static final int app_name=0x7f050000;
+        public static final int buy_ticket_option=0x7f050014;
         public static final int confirm_password_label=0x7f050009;
         public static final int create_account_label=0x7f05000f;
-        public static final int hello_world=0x7f050011;
         public static final int login_password_label=0x7f050003;
         /**  Sign In Screen 
          */
@@ -77,12 +99,17 @@ public final class R {
         public static final int new_password_label=0x7f050008;
         public static final int new_realname_label=0x7f05000a;
         public static final int new_username_label=0x7f050007;
+        public static final int see_tickets_option=0x7f050013;
         public static final int sign_in_button_text=0x7f050004;
         public static final int sign_up_button_text=0x7f050005;
+        /**  Main Screen 
+         */
         public static final int title_activity_main=0x7f050010;
         /**  Sign Up Screen 
          */
         public static final int title_activity_sign_up=0x7f050006;
+        public static final int title_itemoption_detail=0x7f050012;
+        public static final int title_itemoption_list=0x7f050011;
     }
     public static final class style {
         /** 

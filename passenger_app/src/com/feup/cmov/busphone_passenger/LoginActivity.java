@@ -2,7 +2,9 @@ package com.feup.cmov.busphone_passenger;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
 
 public class LoginActivity extends Activity {
 
@@ -19,4 +21,13 @@ public class LoginActivity extends Activity {
 		return true;
 	}
 
+	public void signInAction(View view){
+		Intent intent = new Intent(this, ItemOptionListActivity.class);
+		startActivity(intent);
+	}
+	
+	public void signUpAction(View view){
+		Intent intent = new Intent(this, SignUpActivity.class);
+		startActivity(intent);
+	}
 }
