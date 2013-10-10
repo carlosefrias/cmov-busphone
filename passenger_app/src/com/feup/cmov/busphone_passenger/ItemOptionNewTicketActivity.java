@@ -1,13 +1,13 @@
 package com.feup.cmov.busphone_passenger;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class ItemOptionNewTicketActivity extends Activity {
+public class ItemOptionNewTicketActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,19 +26,13 @@ public class ItemOptionNewTicketActivity extends Activity {
 		//
 		// http://developer.android.com/guide/components/fragments.html
 		//
-//		if (savedInstanceState == null) {
-			// Create the detail fragment and add it to the activity
-			// using a fragment transaction.
-//			Bundle arguments = new Bundle();
-//			arguments.putString(
-//				ItemOptionDetailFragment.ARG_ITEM_ID,
-//				getIntent().getStringExtra(
-//					ItemOptionDetailFragment.ARG_ITEM_ID));
-//			ItemOptionDetailFragment fragment = new ItemOptionDetailFragment();
-//			fragment.setArguments(arguments);
-//			getSupportFragmentManager().beginTransaction()
-//					.add(R.id.itemoption_detail_container, fragment).commit();
-//		}
+		if (savedInstanceState == null) {
+//			 Create the detail fragment and add it to the activity
+//			 using a fragment transaction.
+			ItemOptionNewTicketFragment fragment = new ItemOptionNewTicketFragment();
+			getSupportFragmentManager().beginTransaction()
+					.add(R.id.itemoption_detail_container, fragment).commit();
+		}
 	}
 
 	@Override

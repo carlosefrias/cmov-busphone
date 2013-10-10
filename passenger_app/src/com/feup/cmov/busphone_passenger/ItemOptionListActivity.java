@@ -68,7 +68,7 @@ public class ItemOptionListActivity extends FragmentActivity implements
 			if(id.equals("1")){
 				//Implement the show tickets fragment
 				Toast.makeText(this, "It's true!! Will show all tickets!", Toast.LENGTH_LONG).show();
-				ItemOptionShowTicketsFragment fragment = (ItemOptionShowTicketsFragment) getSupportFragmentManager().findFragmentById(R.id.show_tickets_fragment);
+				ItemOptionShowTicketsFragment fragment = new ItemOptionShowTicketsFragment();
 				
 				if(fragment != null){
 					getSupportFragmentManager().beginTransaction()
@@ -79,7 +79,7 @@ public class ItemOptionListActivity extends FragmentActivity implements
 			else if(id.equals("2")){
 				//Implement the buy tickets fragment
 				Toast.makeText(this, "It's true!! Will show a way to buy tickets!", Toast.LENGTH_LONG).show();
-				ItemOptionNewTicketFragment fragment = (ItemOptionNewTicketFragment) getSupportFragmentManager().findFragmentById(R.id.new_ticket_fragment);
+				ItemOptionNewTicketFragment fragment = new ItemOptionNewTicketFragment();
 				
 				if(fragment != null){
 					getSupportFragmentManager().beginTransaction()

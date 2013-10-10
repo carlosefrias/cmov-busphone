@@ -9,7 +9,9 @@ package com.feup.cmov.busphone_passenger;
 
 public final class R {
     public static final class array {
+        public static final int available_trips=0x7f060001;
         public static final int credit_card_types=0x7f060000;
+        public static final int ticket_types=0x7f060002;
     }
     public static final class attr {
     }
@@ -27,7 +29,10 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090017;
+        public static final int action_settings=0x7f09001a;
+        public static final int availableTicketsTextView=0x7f090017;
+        public static final int availableTripsSpinner=0x7f090016;
+        public static final int buyTicketButton=0x7f090019;
         public static final int confirmPasswordEditText=0x7f09000b;
         public static final int confirmPasswordRow=0x7f09000a;
         public static final int itemoption_detail_container=0x7f090001;
@@ -47,9 +52,9 @@ public final class R {
         public static final int newRealnameRow=0x7f09000c;
         public static final int newUsernameEditText=0x7f090007;
         public static final int newUsernameRow=0x7f090006;
-        public static final int new_ticket_fragment=0x7f090015;
         public static final int passwordRow=0x7f090004;
-        public static final int show_tickets_fragment=0x7f090016;
+        public static final int show_tickets_fragment=0x7f090015;
+        public static final int ticketTypesSpinner=0x7f090018;
         public static final int usernameRow=0x7f090002;
     }
     public static final class layout {
@@ -89,10 +94,12 @@ public final class R {
         /**  Global Strings 
          */
         public static final int app_name=0x7f050000;
-        public static final int buy_ticket_option=0x7f050014;
+        /**  New Ticket Specific Strings 
+         */
+        public static final int available_tickets_label=0x7f050016;
+        public static final int buy_ticket_label=0x7f050017;
         public static final int confirm_password_label=0x7f050009;
         public static final int create_account_label=0x7f05000f;
-        public static final int hello_world=0x7f050016;
         public static final int login_password_label=0x7f050003;
         /**  Sign In Screen 
          */
@@ -107,8 +114,8 @@ public final class R {
         public static final int see_tickets_option=0x7f050013;
         public static final int sign_in_button_text=0x7f050004;
         public static final int sign_up_button_text=0x7f050005;
-        public static final int title_activity_item_option_new_ticket=0x7f050017;
-        public static final int title_activity_item_option_show_tickets=0x7f050015;
+        public static final int title_activity_item_option_new_ticket=0x7f050015;
+        public static final int title_activity_item_option_show_tickets=0x7f050014;
         /**  Main Screen 
          */
         public static final int title_activity_main=0x7f050010;
