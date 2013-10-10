@@ -27,12 +27,11 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090016;
+        public static final int action_settings=0x7f090017;
         public static final int confirmPasswordEditText=0x7f09000b;
         public static final int confirmPasswordRow=0x7f09000a;
-        public static final int itemoption_detail=0x7f090015;
-        public static final int itemoption_detail_container=0x7f090000;
-        public static final int itemoption_list=0x7f090001;
+        public static final int itemoption_detail_container=0x7f090001;
+        public static final int itemoption_list=0x7f090000;
         public static final int loginPasswordEditText=0x7f090005;
         public static final int loginUsernameEditText=0x7f090003;
         public static final int newCreditCardLabel=0x7f09000e;
@@ -48,11 +47,12 @@ public final class R {
         public static final int newRealnameRow=0x7f09000c;
         public static final int newUsernameEditText=0x7f090007;
         public static final int newUsernameRow=0x7f090006;
+        public static final int new_ticket_fragment=0x7f090015;
         public static final int passwordRow=0x7f090004;
+        public static final int show_tickets_fragment=0x7f090016;
         public static final int usernameRow=0x7f090002;
     }
     public static final class layout {
-        public static final int activity_itemoption_detail=0x7f030000;
         /** 
     Layout alias to replace the single-pane version of the layout with a
     two-pane version on Large screens.
@@ -68,17 +68,21 @@ public final class R {
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     
          */
-        public static final int activity_itemoption_list=0x7f030001;
-        public static final int activity_itemoption_twopane=0x7f030002;
-        public static final int activity_login=0x7f030003;
-        public static final int activity_main=0x7f030004;
+        public static final int activity_itemoption_list=0x7f030000;
+        public static final int activity_itemoption_new_ticket=0x7f030001;
+        public static final int activity_itemoption_show_tickets=0x7f030002;
+        public static final int activity_itemoption_twopane=0x7f030003;
+        public static final int activity_login=0x7f030004;
         public static final int activity_sign_up=0x7f030005;
-        public static final int fragment_itemoption_detail=0x7f030006;
+        public static final int fragment_itemoption_new_ticket=0x7f030006;
+        public static final int fragment_itemoption_show_tickets=0x7f030007;
     }
     public static final class menu {
-        public static final int login=0x7f080000;
-        public static final int main=0x7f080001;
-        public static final int sign_up=0x7f080002;
+        public static final int item_option_new_ticket=0x7f080000;
+        public static final int item_option_show_tickets=0x7f080001;
+        public static final int login=0x7f080002;
+        public static final int main=0x7f080003;
+        public static final int sign_up=0x7f080004;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -88,6 +92,7 @@ public final class R {
         public static final int buy_ticket_option=0x7f050014;
         public static final int confirm_password_label=0x7f050009;
         public static final int create_account_label=0x7f05000f;
+        public static final int hello_world=0x7f050016;
         public static final int login_password_label=0x7f050003;
         /**  Sign In Screen 
          */
@@ -102,6 +107,8 @@ public final class R {
         public static final int see_tickets_option=0x7f050013;
         public static final int sign_in_button_text=0x7f050004;
         public static final int sign_up_button_text=0x7f050005;
+        public static final int title_activity_item_option_new_ticket=0x7f050017;
+        public static final int title_activity_item_option_show_tickets=0x7f050015;
         /**  Main Screen 
          */
         public static final int title_activity_main=0x7f050010;

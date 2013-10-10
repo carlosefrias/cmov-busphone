@@ -37,5 +37,8 @@
     <string name="title_itemoption_detail">Main Menu Option</string>
     <string name="see_tickets_option">My Tickets</string>
     <string name="buy_ticket_option"></string>
+    <string name="title_activity_item_option_show_tickets">My Tickets</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_item_option_new_ticket">New Ticket</string>
 
 </resources>

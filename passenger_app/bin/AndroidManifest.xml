@@ -27,17 +27,19 @@
             android:label="@string/title_activity_sign_up" >
         </activity>
         <activity
-            android:name="com.feup.cmov.busphone_passenger.MainActivity"
-            android:label="@string/title_activity_main" >
-        </activity>
-        <activity
             android:name="com.feup.cmov.busphone_passenger.ItemOptionListActivity"
             android:label="@string/title_itemoption_list" >
         </activity>
         <activity
-            android:name="com.feup.cmov.busphone_passenger.ItemOptionDetailActivity"
-            android:label="@string/title_itemoption_detail"
-            android:parentActivityName=".ItemOptionListActivity" >
+            android:name="com.feup.cmov.busphone_passenger.ItemOptionShowTicketsActivity"
+            android:label="@string/title_activity_item_option_show_tickets" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ItemOptionListActivity" />
+        </activity>
+        <activity
+            android:name="com.feup.cmov.busphone_passenger.ItemOptionNewTicketActivity"
+            android:label="@string/title_activity_item_option_new_ticket" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ItemOptionListActivity" />

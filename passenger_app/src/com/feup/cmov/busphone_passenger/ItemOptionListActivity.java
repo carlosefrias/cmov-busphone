@@ -62,41 +62,46 @@ public class ItemOptionListActivity extends FragmentActivity implements
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
-			Bundle arguments = new Bundle();
-			arguments.putString(ItemOptionDetailFragment.ARG_ITEM_ID, id);
+			//Bundle arguments = new Bundle();
+			//arguments.putString(ItemOptionDetailFragment.ARG_ITEM_ID, id);
 			
 			if(id.equals("1")){
 				//Implement the show tickets fragment
 				Toast.makeText(this, "It's true!! Will show all tickets!", Toast.LENGTH_LONG).show();
+				ItemOptionShowTicketsFragment fragment = (ItemOptionShowTicketsFragment) getSupportFragmentManager().findFragmentById(R.id.show_tickets_fragment);
+				
+				if(fragment != null){
+					getSupportFragmentManager().beginTransaction()
+					.replace(R.id.itemoption_detail_container, fragment)
+					.commit();
+				}
 			}
 			else if(id.equals("2")){
 				//Implement the buy tickets fragment
 				Toast.makeText(this, "It's true!! Will show a way to buy tickets!", Toast.LENGTH_LONG).show();
-			}
-			
-			ItemOptionDetailFragment fragment = new ItemOptionDetailFragment();
-			fragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
+				ItemOptionNewTicketFragment fragment = (ItemOptionNewTicketFragment) getSupportFragmentManager().findFragmentById(R.id.new_ticket_fragment);
+				
+				if(fragment != null){
+					getSupportFragmentManager().beginTransaction()
 					.replace(R.id.itemoption_detail_container, fragment)
-					.commit();
-
+					.commit();	
+				}
+			}
 		} else {
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
-			Intent detailIntent = new Intent(this,
-					ItemOptionDetailActivity.class);
-			detailIntent.putExtra(ItemOptionDetailFragment.ARG_ITEM_ID, id);
-			
 			if(id.equals("1")){
 				//Implement the show tickets fragment
 				Toast.makeText(this, "It's true!! Will show all tickets!", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(this, ItemOptionShowTicketsActivity.class);
+				startActivity(intent);
 			}
 			else if(id.equals("2")){
 				//Implement the buy tickets fragment
 				Toast.makeText(this, "It's true!! Will show a way to buy tickets!", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(this, ItemOptionNewTicketActivity.class);
+				startActivity(intent);
 			}
-			
-			startActivity(detailIntent);
 		}
 	}
 }
