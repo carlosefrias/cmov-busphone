@@ -22,7 +22,7 @@ public class LoginActivity extends Activity {
 	}
 
 	public void signInAction(View view){
-		Intent intent = new Intent(this, ItemOptionListActivity.class);
+		Intent intent = new Intent(this, ShowTicketsActivity.class);
 		startActivity(intent);
 	}
 	

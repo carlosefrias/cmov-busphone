@@ -3,17 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/show_tickets_fragment"
     android:orientation="vertical"
-    tools:context=".ItemOptionShowTicketsFragment"
+    android:id="@+id/itemoption_detail_container" 
+    tools:context=".ItemOptionValidationFragment"
     tools:ignore="MergeRootFrame">
     
-    <Button 
-        android:id="@+id/dummyButton"
-        android:layout_width="match_parent"
+    <TextView 
+        android:id="@+id/validateMessageLabel"
         android:layout_height="0dip"
+        android:layout_width="match_parent"
         android:layout_weight="1"
-        android:text="I'm dummy!!!"
-        android:onClick="dummyAction"/>
-    
+        android:text="@string/validate_message_label"/>
+
 </LinearLayout>

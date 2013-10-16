@@ -7,6 +7,5 @@
     For more on layout aliases, see:
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
-    <item name="activity_itemoption_list" type="layout">@layout/activity_itemoption_twopane</item>
 
 </resources>

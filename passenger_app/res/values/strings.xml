@@ -33,15 +33,14 @@
 
     <!-- Main Screen -->
     <string name="title_activity_main">Bus Phone</string>
-    <string name="title_itemoption_list">Main Menu</string>
-    <string name="title_itemoption_detail">Main Menu Option</string>
     <string name="see_tickets_option">My Tickets</string>
-    <string name="title_activity_item_option_show_tickets">My Tickets</string>
-    <string name="title_activity_item_option_new_ticket">New Ticket</string>
+    <string name="title_activity_show_tickets">My Tickets</string>
     
     <!-- New Ticket Specific Strings -->
+    <string name="title_dialog_new_ticket">New Ticket</string>
     <string name="available_tickets_label">Available Tickets: </string>
     <string name="buy_ticket_label">Buy ticket</string>
+    <string name="cancel_buy_ticket_label">Cancel</string>
     
     <string-array name="available_trips">
         <item>Please select your trip…</item>
@@ -53,5 +52,14 @@
         <item>30 minutes</item>
         <item>1 hour</item>
     </string-array>
+    
+    <!-- Single Ticket Screen -->
+    <string name="title_dialog_single_ticket">Show Ticket</string>
+    <string name="validate_ticket_button_label">Validate Ticket</string>
+    <string name="go_back_ticket_label">Back</string>
+    
+    <!-- Validation Screen -->
+    <string name="title_activity_validation">Ticket Validation</string>
+    <string name="validate_message_label">Please validate your ticket.</string>
 
 </resources>
