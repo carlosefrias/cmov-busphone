@@ -2,27 +2,21 @@ package com.feup.cmov.busphone_terminal;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
-import android.view.View;
 
-public class LoginActivity extends Activity {
+public class ValidationActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
+		setContentView(R.layout.activity_validation);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.login, menu);
+		getMenuInflater().inflate(R.menu.validation, menu);
 		return true;
 	}
 
-	public void signInAction(View view){
-		Intent intent = new Intent(this, ValidationActivity.class);
-		startActivity(intent);
-	}
 }

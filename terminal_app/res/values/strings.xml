@@ -9,5 +9,9 @@
     <string name="login_username_label">User</string>
     <string name="login_password_label">Password</string>
     <string name="sign_in_button_text">Sign In</string>
+    
+    <!-- Validation Screen -->
+    <string name="title_activity_validation">Ticket Validation</string>
+    <string name="validate_message_label">Please validate your ticket.</string>
 
 </resources>

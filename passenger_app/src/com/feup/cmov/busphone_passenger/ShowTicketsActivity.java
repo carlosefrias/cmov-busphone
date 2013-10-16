@@ -37,6 +37,10 @@ public class ShowTicketsActivity extends Activity {
 		case R.id.new_ticket_dialog:
 			showDialog(NEW_TICKET);
 			return true;
+		case R.id.sign_out_action:
+			Intent validationIntent = new Intent(getApplicationContext(), LoginActivity.class);
+			startActivity(validationIntent);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
