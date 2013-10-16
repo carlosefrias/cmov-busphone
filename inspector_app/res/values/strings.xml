@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-     <!-- Global Strings -->
+    <!-- Global Strings -->
     <string name="app_name">Bus Phone</string>
     <string name="action_settings">Settings</string>
 
@@ -9,5 +9,9 @@
     <string name="login_username_label">User</string>
     <string name="login_password_label">Password</string>
     <string name="sign_in_button_text">Sign In</string>
-    
+    <string name="title_activity_bus_selection">Bus Selection</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_ticket_selection">Ticket Selection</string>
+    <string name="title_activity_validation">Ticket Validation</string>
+
 </resources>

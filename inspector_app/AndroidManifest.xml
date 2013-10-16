@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
     <application
@@ -21,6 +21,24 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.feup.cmov.busphone_inspector.BusSelectionActivity"
+            android:label="@string/title_activity_bus_selection" >
+        </activity>
+        <activity
+            android:name="com.feup.cmov.busphone_inspector.TicketSelectionActivity"
+            android:label="@string/title_activity_ticket_selection" >
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+       	 		android:value="com.feup.cmov.busphone_passenger.BusSelectionActivity"/>
+        </activity>
+        <activity
+            android:name="com.feup.cmov.busphone_inspector.ValidationActivity"
+            android:label="@string/title_activity_validation" >
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+       	 		android:value="com.feup.cmov.busphone_passenger.TicketSelectionActivity"/>
         </activity>
     </application>
 
