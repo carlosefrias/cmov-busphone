@@ -22,6 +22,12 @@ public class LoginActivity extends Activity {
 	}
 
 	public void signInAction(View view){
+		/**
+		 * Implement runnable for sign-in
+		 * 
+		 * class SignInRunnable implements Runnable
+		 */
+		
 		Intent intent = new Intent(this, ValidationActivity.class);
 		startActivity(intent);
 	}

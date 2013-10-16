@@ -22,11 +22,29 @@ public class LoginActivity extends Activity {
 	}
 
 	public void signInAction(View view){
+		/**
+		 * Implement runnable for sign-in
+		 * 
+		 * class SignInRunnable implements Runnable
+		 */
+		
+		/**
+		 * Implement runnable for getting user's tickets.
+		 * 
+		 * class ShowTicketsRunnable implements Runnable
+		 */
+		
 		Intent intent = new Intent(this, ShowTicketsActivity.class);
 		startActivity(intent);
 	}
 	
 	public void signUpAction(View view){
+		/**
+		 * Implement runnable for sign-up
+		 * 
+		 * class SignUpRunnable implements Runnable
+		 */
+		
 		Intent intent = new Intent(this, SignUpActivity.class);
 		startActivity(intent);
 	}

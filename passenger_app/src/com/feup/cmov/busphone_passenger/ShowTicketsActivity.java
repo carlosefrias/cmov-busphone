@@ -58,7 +58,11 @@ public class ShowTicketsActivity extends Activity {
 				.setPositiveButton(R.string.buy_ticket_label, new DialogInterface.OnClickListener(){
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						
+						/**
+						 * Implement runnable for posting a new ticket.
+						 * 
+						 * class NewTicketRunnable implements Runnable
+						 */
 					}
 				})
 				.setNegativeButton(R.string.cancel_buy_ticket_label, new DialogInterface.OnClickListener(){
@@ -76,6 +80,11 @@ public class ShowTicketsActivity extends Activity {
 				.setPositiveButton(R.string.validate_ticket_button_label, new DialogInterface.OnClickListener(){
 					@Override
 		            public void onClick(DialogInterface dialog, int id) {
+						/**
+						 * Implement runnable for retrieving single ticket information
+						 * 
+						 * class SingleTicketRunnable implements Runnable
+						 */
 						Intent validationIntent = new Intent(getApplicationContext(), ValidationActivity.class);
 						startActivity(validationIntent);
 						dismissDialog(SINGLE_TICKET);

@@ -42,4 +42,10 @@ public class ValidationActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	/**
+	 * Implement runnable for validation (it must be always available to build a transmission channel).
+	 * 
+	 * class ValidationRunnable implements Runnable
+	 */
 }
