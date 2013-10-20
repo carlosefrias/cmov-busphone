@@ -7,7 +7,7 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -16,6 +16,7 @@
         <activity
             android:name="com.feup.cmov.busphone_inspector.LoginActivity"
             android:label="@string/app_name" >
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,16 +30,9 @@
         <activity
             android:name="com.feup.cmov.busphone_inspector.TicketSelectionActivity"
             android:label="@string/title_activity_ticket_selection" >
-            <meta-data 
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-       	 		android:value="com.feup.cmov.busphone_passenger.BusSelectionActivity"/>
-        </activity>
-        <activity
-            android:name="com.feup.cmov.busphone_inspector.ValidationActivity"
-            android:label="@string/title_activity_validation" >
-            <meta-data 
-                android:name="android.support.PARENT_ACTIVITY"
-       	 		android:value="com.feup.cmov.busphone_passenger.TicketSelectionActivity"/>
+                android:value="com.feup.cmov.busphone_passenger.BusSelectionActivity" />
         </activity>
     </application>
 

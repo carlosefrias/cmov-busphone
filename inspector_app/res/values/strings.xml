@@ -13,5 +13,14 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_ticket_selection">Ticket Selection</string>
     <string name="title_activity_validation">Ticket Validation</string>
+    <string name="login_answer_label">\"\"</string>
+    <string name="selectBus_text">Select the bus to inspect</string>
+    <string name="selectBus_getTickets_Button">Get the tickets from server</string>
+    <string name="ticket_selection_text_label">Click the button to receive ticket</string>
+    <string name="ticket_selection_validate_button">Validate the ticket</string>
+    <string name="select_tickets_receive_ticket">Receive ticket</string>
+    <string name="ticket_selection_received_ticket_label">\"\"</string>
+    <string name="ticket_selection_2nd_label">Or select a ticket from the list</string>
+    <string name="ticket_selection_Validation_label">\"\"</string>
 
 </resources>

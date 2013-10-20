@@ -49,11 +49,18 @@
     </TableLayout>
     
     <Button
+        android:id="@+id/loginSignInButton"
         android:layout_width="fill_parent"
    	    android:layout_height="wrap_content"
    	    android:text="@string/sign_in_button_text"
-   	    android:onClick="signInAction">
-        
+   	    android:onClick="signInAction">    
     </Button>
+
+    <TextView
+        android:id="@+id/loginAnswerText"
+        android:layout_width="fill_parent"
+        android:layout_height="60dip"
+        android:layout_gravity="center"
+        android:text="@string/login_answer_label" />
 
 </LinearLayout>

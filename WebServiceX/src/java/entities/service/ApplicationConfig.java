@@ -41,7 +41,6 @@ public class ApplicationConfig extends Application {
         resources.add(entities.service.PassengerFacadeREST.class);
         resources.add(entities.service.PassengerticketsFacadeREST.class);
         resources.add(entities.service.TicketFacadeREST.class);
-        resources.add(entities.service.TicketusedinbusFacadeREST.class);
     }
     
 }

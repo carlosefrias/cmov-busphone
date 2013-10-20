@@ -6,13 +6,11 @@ package entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,8 +32,6 @@ public class Bus implements Serializable {
     @NotNull
     @Column(name = "idbus")
     private Integer idbus;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "bus")
-    private Ticketusedinbus ticketusedinbus;
 
     public Bus() {
     }
@@ -50,14 +46,6 @@ public class Bus implements Serializable {
 
     public void setIdbus(Integer idbus) {
         this.idbus = idbus;
-    }
-
-    public Ticketusedinbus getTicketusedinbus() {
-        return ticketusedinbus;
-    }
-
-    public void setTicketusedinbus(Ticketusedinbus ticketusedinbus) {
-        this.ticketusedinbus = ticketusedinbus;
     }
 
     @Override

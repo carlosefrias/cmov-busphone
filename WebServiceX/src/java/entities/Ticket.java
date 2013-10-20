@@ -7,13 +7,11 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Ticket.findByType", query = "SELECT t FROM Ticket t WHERE t.type = :type"),
     @NamedQuery(name = "Ticket.findByIsvalidated", query = "SELECT t FROM Ticket t WHERE t.isvalidated = :isvalidated"),
     @NamedQuery(name = "Ticket.findByIsused", query = "SELECT t FROM Ticket t WHERE t.isused = :isused"),
-    @NamedQuery(name = "Ticket.findByTimeodvalidation", query = "SELECT t FROM Ticket t WHERE t.timeodvalidation = :timeodvalidation")})
+    @NamedQuery(name = "Ticket.findByTimeodvalidation", query = "SELECT t FROM Ticket t WHERE t.timeodvalidation = :timeodvalidation"),
+    @NamedQuery(name = "Ticket.findByIdbus", query = "SELECT t FROM Ticket t WHERE t.idbus = :idbus")})
 public class Ticket implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,8 +58,8 @@ public class Ticket implements Serializable {
     @Column(name = "timeodvalidation")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeodvalidation;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "ticket")
-    private Ticketusedinbus ticketusedinbus;
+    @Column(name = "idbus")
+    private Integer idbus;
 
     public Ticket() {
     }
@@ -116,12 +115,12 @@ public class Ticket implements Serializable {
         this.timeodvalidation = timeodvalidation;
     }
 
-    public Ticketusedinbus getTicketusedinbus() {
-        return ticketusedinbus;
+    public Integer getIdbus() {
+        return idbus;
     }
 
-    public void setTicketusedinbus(Ticketusedinbus ticketusedinbus) {
-        this.ticketusedinbus = ticketusedinbus;
+    public void setIdbus(Integer idbus) {
+        this.idbus = idbus;
     }
 
     @Override
