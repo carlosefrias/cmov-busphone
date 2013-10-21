@@ -25,28 +25,28 @@ public final class R {
     }
     public static final class id {
         public static final int LinearLayout1=0x7f080000;
-        public static final int action_settings=0x7f080011;
+        public static final int action_settings=0x7f080010;
         public static final int bus_selection_BusList=0x7f080002;
         public static final int bus_selection_Button=0x7f080003;
         public static final int bus_selection_Text=0x7f080001;
-        public static final int loginAnswerText=0x7f080009;
         public static final int loginPasswordEditText=0x7f080007;
         public static final int loginSignInButton=0x7f080008;
         public static final int loginUsernameEditText=0x7f080005;
         public static final int passwordRow=0x7f080006;
-        public static final int ticket_selection_receive_button=0x7f08000b;
-        public static final int ticket_selection_receive_lebel=0x7f08000e;
-        public static final int ticket_selection_spinner=0x7f08000d;
-        public static final int ticket_selection_text_label=0x7f08000c;
-        public static final int ticket_selection_textlabel=0x7f08000a;
-        public static final int ticket_selection_validate_button=0x7f08000f;
-        public static final int ticket_selection_validation_label=0x7f080010;
+        public static final int ticket_selection_receive_button=0x7f08000a;
+        public static final int ticket_selection_receive_lebel=0x7f08000d;
+        public static final int ticket_selection_spinner=0x7f08000c;
+        public static final int ticket_selection_text_label=0x7f08000b;
+        public static final int ticket_selection_textlabel=0x7f080009;
+        public static final int ticket_selection_validate_button=0x7f08000e;
+        public static final int ticket_selection_validation_label=0x7f08000f;
         public static final int usernameRow=0x7f080004;
     }
     public static final class layout {
         public static final int activity_bus_selection=0x7f030000;
         public static final int activity_login=0x7f030001;
         public static final int activity_ticket_selection=0x7f030002;
+        public static final int activity_validation=0x7f030003;
     }
     public static final class menu {
         public static final int bus_selection=0x7f070000;

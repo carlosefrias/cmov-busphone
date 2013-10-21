@@ -5,19 +5,17 @@ import java.util.ArrayList;
 import Entities.Bus;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener {
 	private EditText usernameText, passwordText;
 	private Button loginButton;
-	private TextView loginAnswer;
 	private static boolean logedIn = false;
 	private Bundle bundle;
 	private Intent newIntent;
@@ -29,8 +27,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 		usernameText = (EditText) findViewById(R.id.loginUsernameEditText);
 		passwordText = (EditText) findViewById(R.id.loginPasswordEditText);
 		loginButton = (Button) findViewById(R.id.loginSignInButton);
-		loginAnswer = (TextView) findViewById(R.id.loginAnswerText);
-		loginAnswer.setVisibility(View.INVISIBLE);
 		loginButton.setOnClickListener(this);
 		bundle = new Bundle();
 		newIntent = new Intent(this.getApplicationContext(), BusSelectionActivity.class);
@@ -61,17 +57,15 @@ public class LoginActivity extends Activity implements OnClickListener {
 						logedIn = isValidLogin;
 						if(logedIn){
 							//Login successful
-							loginAnswer.setTextColor(Color.GREEN);
-							loginAnswer.setText("Login successful!");
+							Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
 							//passing the busses to next activity
 							bundle.putSerializable("key", bus);
 							newIntent.putExtras(bundle);
 							startActivity(newIntent);
 							
 						}else{
-							//login failed 
-							loginAnswer.setTextColor(Color.RED);
-							loginAnswer.setText("Login failed!");
+							//login failed
+							Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG).show();
 						}
 					}
 				});
@@ -81,7 +75,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 		if (v.getId() == R.id.loginSignInButton) {
 			String username = usernameText.getText().toString();
 			String password = passwordText.getText().toString();
-			loginAnswer.setVisibility(View.VISIBLE);
 			new Thread(new LoginRunnable(username, password)).start();
 		}
 	}

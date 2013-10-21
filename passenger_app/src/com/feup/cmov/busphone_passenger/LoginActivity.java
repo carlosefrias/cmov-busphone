@@ -1,17 +1,34 @@
 package com.feup.cmov.busphone_passenger;
 
+import com.feup.cmov.busphone_passenger.RestAPI;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-public class LoginActivity extends Activity {
-
+public class LoginActivity extends Activity implements OnClickListener {
+	private EditText usernameText, passwordText;
+	private Button loginButton;
+	private static boolean logedIn = false;
+	private Bundle bundle;
+	private Intent newIntent;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		//loading the view objects
+		usernameText = (EditText) findViewById(R.id.loginUsernameEditText);
+		passwordText = (EditText) findViewById(R.id.loginPasswordEditText);
+		loginButton = (Button) findViewById(R.id.loginSignInButton);
+		loginButton.setOnClickListener(this);
+		bundle = new Bundle();
+		newIntent = new Intent(this.getApplicationContext(), ShowTicketsActivity.class);
 	}
 
 	@Override
@@ -21,31 +38,44 @@ public class LoginActivity extends Activity {
 		return true;
 	}
 
-	public void signInAction(View view){
-		/**
-		 * Implement runnable for sign-in
-		 * 
-		 * class SignInRunnable implements Runnable
-		 */
-		
-		/**
-		 * Implement runnable for getting user's tickets.
-		 * 
-		 * class ShowTicketsRunnable implements Runnable
-		 */
-		
-		Intent intent = new Intent(this, ShowTicketsActivity.class);
-		startActivity(intent);
+	public void onClick(View v) {
+		class LoginRunnable implements Runnable{
+			String user, pass;
+			public LoginRunnable(String u, String p){
+				this.user = u;
+				this.pass = p;
+			}
+			@Override
+			public void run() {
+				final boolean isValidLogin = RestAPI.validateLogin(user, pass);
+				//Load the user's tickets from database
+				//final ArrayList<Bus> bus = RestAPI.loadBusFromServer();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						logedIn = isValidLogin;
+						if(logedIn){
+							//Login successful
+							Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
+							//passing the tickets to next activity
+							//bundle.putSerializable("key", bus);
+							newIntent.putExtras(bundle);
+							startActivity(newIntent);
+							
+						}else{
+							//login failed
+							Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG).show();
+						}
+					}
+				});
+			}
+			
+		}
+		if (v.getId() == R.id.loginSignInButton) {
+			String username = usernameText.getText().toString();
+			String password = passwordText.getText().toString();
+			new Thread(new LoginRunnable(username, password)).start();
+		}
 	}
-	
-	public void signUpAction(View view){
-		/**
-		 * Implement runnable for sign-up
-		 * 
-		 * class SignUpRunnable implements Runnable
-		 */
-		
-		Intent intent = new Intent(this, SignUpActivity.class);
-		startActivity(intent);
-	}
+
 }
