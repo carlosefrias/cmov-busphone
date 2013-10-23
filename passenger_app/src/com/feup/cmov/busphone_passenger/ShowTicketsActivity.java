@@ -6,6 +6,7 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,10 +18,31 @@ public class ShowTicketsActivity extends Activity {
 	private static final int NEW_TICKET = 10;
 	private static final int SINGLE_TICKET = 20;
 		
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_itemoption_show_tickets);
+		
+		TicketData tickets = new TicketData(this);
+		try{
+			Cursor cursor = tickets.getAllTickets();
+			startManagingCursor(cursor);
+			
+			if(cursor.getCount() == 0){
+				/*
+				 * Connects with server.
+				 */
+			}
+			else{
+				/*
+				 * Inflate all rows in list view.
+				 */
+			}
+		}
+		finally{
+			tickets.close();
+		}
 	}
 
 	@Override

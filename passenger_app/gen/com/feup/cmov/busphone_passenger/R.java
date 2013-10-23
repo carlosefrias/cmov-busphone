@@ -9,8 +9,8 @@ package com.feup.cmov.busphone_passenger;
 
 public final class R {
     public static final class array {
-        public static final int available_trips=0x7f060001;
         public static final int credit_card_types=0x7f060000;
+        public static final int number_of_tickets_to_buy=0x7f060001;
         public static final int ticket_types=0x7f060002;
     }
     public static final class attr {
@@ -29,14 +29,12 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f09001e;
-        public static final int availableTicketsTextView=0x7f09001a;
-        public static final int availableTripsSpinner=0x7f090019;
+        public static final int action_settings=0x7f09001d;
         public static final int confirmPasswordEditText=0x7f09000e;
         public static final int confirmPasswordRow=0x7f09000d;
         public static final int dummyButton=0x7f090001;
         public static final int itemoption_detail_container=0x7f090002;
-        public static final int itemoption_single_ticket_fragment=0x7f09001c;
+        public static final int itemoption_single_ticket_fragment=0x7f09001b;
         public static final int loginPasswordEditText=0x7f090007;
         public static final int loginSignInButton=0x7f090008;
         public static final int loginUsernameEditText=0x7f090005;
@@ -53,15 +51,16 @@ public final class R {
         public static final int newRealnameRow=0x7f09000f;
         public static final int newUsernameEditText=0x7f09000a;
         public static final int newUsernameRow=0x7f090009;
-        public static final int new_ticket_dialog=0x7f09001f;
+        public static final int new_ticket_dialog=0x7f09001e;
         public static final int new_ticket_fragment=0x7f090018;
+        public static final int numberOfTicketsToBuySpinner=0x7f090019;
         public static final int passwordRow=0x7f090006;
         public static final int show_tickets_fragment=0x7f090000;
-        public static final int sign_out_action=0x7f090020;
-        public static final int ticketTypesSpinner=0x7f09001b;
+        public static final int sign_out_action=0x7f09001f;
+        public static final int ticketTypesSpinner=0x7f09001a;
         public static final int usernameRow=0x7f090004;
         public static final int validateMessageLabel=0x7f090003;
-        public static final int validateTicketRow=0x7f09001d;
+        public static final int validateTicketRow=0x7f09001c;
     }
     public static final class layout {
         public static final int activity_itemoption_show_tickets=0x7f030000;
@@ -83,12 +82,11 @@ public final class R {
         /**  Global Strings 
          */
         public static final int app_name=0x7f050000;
-        public static final int available_tickets_label=0x7f050015;
-        public static final int buy_ticket_label=0x7f050016;
-        public static final int cancel_buy_ticket_label=0x7f050017;
+        public static final int buy_ticket_label=0x7f050015;
+        public static final int cancel_buy_ticket_label=0x7f050016;
         public static final int confirm_password_label=0x7f05000a;
         public static final int create_account_label=0x7f050010;
-        public static final int go_back_ticket_label=0x7f05001a;
+        public static final int go_back_ticket_label=0x7f050019;
         public static final int login_password_label=0x7f050004;
         /**  Sign In Screen 
          */
@@ -113,15 +111,15 @@ public final class R {
         public static final int title_activity_sign_up=0x7f050007;
         /**  Validation Screen 
          */
-        public static final int title_activity_validation=0x7f05001b;
+        public static final int title_activity_validation=0x7f05001a;
         /**  New Ticket Specific Strings 
          */
         public static final int title_dialog_new_ticket=0x7f050014;
         /**  Single Ticket Screen 
          */
-        public static final int title_dialog_single_ticket=0x7f050018;
-        public static final int validate_message_label=0x7f05001c;
-        public static final int validate_ticket_button_label=0x7f050019;
+        public static final int title_dialog_single_ticket=0x7f050017;
+        public static final int validate_message_label=0x7f05001b;
+        public static final int validate_ticket_button_label=0x7f050018;
     }
     public static final class style {
         /** 
