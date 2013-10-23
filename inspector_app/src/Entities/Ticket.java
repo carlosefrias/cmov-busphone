@@ -6,8 +6,8 @@ import java.util.Date;
 public class Ticket implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String idticket, type;
-	private boolean isvalidated, isused;
-	private Date timeofvalidation;
+	private boolean isvalidated, ischecked;
+	private String timeofvalidation;
 	private long busid; 
 	
 	
@@ -29,16 +29,16 @@ public class Ticket implements Serializable{
 	public void setIsvalidated(boolean isvalidated) {
 		this.isvalidated = isvalidated;
 	}
-	public boolean isIsused() {
-		return isused;
+	public boolean isChecked() {
+		return ischecked;
 	}
-	public void setIsused(boolean isused) {
-		this.isused = isused;
+	public void setisChecked(boolean ischecked) {
+		this.ischecked = ischecked;
 	}
-	public Date getTimeofvalidation() {
+	public String getTimeofvalidation() {
 		return timeofvalidation;
 	}
-	public void setTimeofvalidation(Date timeofvalidation) {
+	public void setTimeofvalidation(String timeofvalidation) {
 		this.timeofvalidation = timeofvalidation;
 	}
 	public long getBusid() {
@@ -49,7 +49,7 @@ public class Ticket implements Serializable{
 	}
 	@Override
 	public String toString(){
-		return "" + this.idticket + ", " + this.type + ", " + this.isvalidated + ", " + this.isused + ", " + this.timeofvalidation + ", " + this.busid;
+		return "" + this.idticket + ", " + this.type + ", " + this.isvalidated + ", " + this.ischecked + ", " + this.timeofvalidation + ", " + this.busid;
 	}
 	public String toStringShortVersion(){
 		return "Ticket id:" + this.idticket;
