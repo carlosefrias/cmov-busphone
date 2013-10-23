@@ -8,8 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
+import java.util.UUID;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,7 +19,7 @@ import Entities.Bus;
 import Entities.Ticket;
 
 public class RestAPI {
-	private static String urlRest = "http://192.168.56.1:8080/WebServiceX/webresources/";
+	private static String urlRest = "http://172.30.50.196:8080/WebServiceX/webresources/";
 
 	/**
 	 * To be used as a testing function
@@ -31,9 +31,11 @@ public class RestAPI {
 		//System.out.println(validateLogin("insp", "pass2"));
 		//System.out.print(loadBusFromServer());
 		//System.out.println(loadTicketListInBus(2));
-		Ticket tck = getTicketFromId("12345");
-		System.out.println("" + tck);
-		validateTicket(tck);
+		//Ticket tck = getTicketFromId("12345");
+		//System.out.println("" + tck);
+		//validateTicket(tck);
+		
+		System.out.println(buyTickets("T1", 10));
 	}
 
 	/**
@@ -151,12 +153,11 @@ public class RestAPI {
 					ticket.setIdticket((String) item.get("idticket"));
 					ticket.setType((String) item.get("type"));
 					ticket.setBusid((Long) item.get("idbus"));
-					ticket.setIsused((Boolean) item.get("isused"));
+					ticket.setisChecked((Boolean) item.get("isused"));
 					ticket.setIsvalidated((Boolean) item.get("isvalidated"));
-					ticket.setTimeofvalidation((Date) item
-							.get("timeodvalidation"));
+					ticket.setTimeofvalidation((String) item.get("timeodvalidation"));
 					// TODO: Acrescentar a condição do tempo...
-					if (ticket.getBusid() == idbus && ticket.isIsused()) {
+					if (ticket.getBusid() == idbus && ticket.isChecked()) {
 						// Adding the ticket to list
 						list.add(ticket);
 					}
@@ -177,8 +178,8 @@ public class RestAPI {
 				Object obj = parser.parse(serverResponse);
 				JSONObject jsonObject = (JSONObject) obj;
 				ticket.setIdticket((String) jsonObject.get("idticket"));
-				ticket.setIsused((Boolean) jsonObject.get("isused"));
-				ticket.setTimeofvalidation((Date) jsonObject.get("timeodvalidation"));
+				ticket.setisChecked((Boolean) jsonObject.get("isused"));
+				ticket.setTimeofvalidation((String) jsonObject.get("timeodvalidation"));
 				ticket.setBusid((Long) jsonObject.get("idbus"));
 				ticket.setType((String) jsonObject.get("type"));
 				ticket.setIsvalidated((Boolean) jsonObject.get("isvalidated"));
@@ -196,8 +197,8 @@ public class RestAPI {
 		JSONObject obj2 = new JSONObject();
 		obj2.put("idticket", ticketToUpdate.getIdticket());
 		obj2.put("type", ticketToUpdate.getType());
-		obj2.put("isvalidated", ticketToUpdate.isIsvalidated());
-		obj2.put("isused", ticketToUpdate.isIsused());
+		obj2.put("ischecked", ticketToUpdate.isIsvalidated());
+		obj2.put("ivalidated", ticketToUpdate.isChecked());
 		obj2.put("timeodvalidation", ticketToUpdate.getTimeofvalidation());
 		obj2.put("idbus", ticketToUpdate.getBusid());
 		// send the updated ticket to server
@@ -229,5 +230,50 @@ public class RestAPI {
 				con.disconnect();
 		}
 	}
-
+	@SuppressWarnings("unchecked")
+	public static String buyTickets(String type, int numberOfTickets){
+		for(int i = 0; i< numberOfTickets; i++){
+			// create the JSON object to send
+			JSONObject obj= new JSONObject();
+			obj.put("idticket", UUID.randomUUID().toString());
+			obj.put("type", type);
+			obj.put("isvalidated", false);
+			obj.put("ischecked", false);
+			obj.put("timeodvalidation", null);
+			obj.put("idbus", null);
+			
+			// send the updated ticket to server
+			HttpURLConnection con = null;
+			try {
+				URL url = new URL(urlRest + "entities.ticket");
+	
+				con = (HttpURLConnection) url.openConnection();
+				con.setReadTimeout(10000);
+				con.setConnectTimeout(15000);
+				con.setRequestMethod("POST");
+				con.setDoOutput(true);
+				con.setDoInput(true);
+				con.setRequestProperty("Content-Type", "application/json");
+				String payload = obj.toJSONString();
+				System.out.println("payload: " + payload);
+				OutputStreamWriter writer = new OutputStreamWriter(
+						con.getOutputStream(), "UTF-8");
+				writer.write(payload, 0, payload.length());
+				writer.close();
+				con.connect();
+				System.out.println("conecta!!!");
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(con.getInputStream(), "UTF-8"));
+				payload = reader.readLine();
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return "ERRO na compra dos bilhetes...";
+			} finally {
+				if (con != null)
+					con.disconnect();
+			}
+		}
+		return "Tickets bought";
+	}
 }
