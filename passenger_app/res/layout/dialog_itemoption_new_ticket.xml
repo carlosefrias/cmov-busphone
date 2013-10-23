@@ -10,22 +10,11 @@
         android:layout_height="match_parent" >
 
         <Spinner
-            android:id="@+id/availableTripsSpinner"
+            android:id="@+id/numberOfTicketsToBuySpinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:entries="@array/available_trips" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <TextView
-            android:id="@+id/availableTicketsTextView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:entries="@array/number_of_tickets_to_buy" />
     </TableRow>
 
     <TableRow

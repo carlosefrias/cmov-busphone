@@ -39,12 +39,21 @@
     
     <!-- New Ticket Specific Strings -->
     <string name="title_dialog_new_ticket">New Ticket</string>
-    <string name="available_tickets_label">Available Tickets: </string>
     <string name="buy_ticket_label">Buy ticket</string>
     <string name="cancel_buy_ticket_label">Cancel</string>
     
-    <string-array name="available_trips">
-        <item>Please select your trip…</item>
+    <string-array name="number_of_tickets_to_buy">
+        <item>Please select the number of tickets to buy…</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
     </string-array>
     
     <string-array name="ticket_types">
