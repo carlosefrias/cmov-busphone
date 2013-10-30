@@ -3,6 +3,7 @@ package com.feup.cmov.busphone_passenger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,12 +11,12 @@ import java.net.URL;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-//import Entities.Bus;
-import Entities.Ticket;
+import android.annotation.SuppressLint;
+import Entities.Passenger;
 
 
 public class RestAPI {
-	private static String urlRest = "http://192.168.1.100:8080/WebServiceX/webresources/";
+	private static String urlRest = "http://172.30.50.196:8080/WebServiceX/webresources/";
 	/**
 	 * To be used as a testing function
 	 * @param args
@@ -25,7 +26,9 @@ public class RestAPI {
 		//System.out.println(validateLogin("insp", "pass2"));
 		//System.out.print(loadBusFromServer());
 		
-//		System.out.println(loadTicketListInBus(2));
+		//System.out.println(loadTicketListInBus(2));
+		Passenger p = new Passenger("user123", "pass", "full name", "VISA", 13377413, "11/666");
+		addUser(p);
 	}
 
 	/**
@@ -152,37 +155,50 @@ public class RestAPI {
 		return list;		
 	}*/
 	
-	public static void validateTicket(Ticket ticket){
-		//TODO:Metodo put para validat bilhete
-		/*
-		String payload = "Error";
-        HttpURLConnection con = null;
-        try {
-          URL url = new URL(urlRest + );
+	@SuppressWarnings("unchecked")
+	@SuppressLint("SimpleDateFormat")
+	public static boolean addUser(Passenger passenger) {
+		// create the JSON object to send
+		JSONObject obj = new JSONObject();
+		obj.put("login", passenger.getLogin());
+		obj.put("password", passenger.getPassword());
+		obj.put("name", passenger.getFullName());
+		obj.put("surname", "surname");
+		obj.put("creditcardtype", passenger.getCreditCardType());
+		obj.put("creditcardnumber", passenger.getCreditCardNumber());
+		obj.put("creditcardvalidity", null);
 
-          con = (HttpURLConnection) url.openConnection();
-          con.setReadTimeout(10000);      
-          con.setConnectTimeout(15000);   
-          con.setRequestMethod("PUT");
-          con.setDoOutput(true);
-          con.setDoInput(true);
-          con.setRequestProperty("Content-Type", "application/json");
+		// send the updated ticket to server
+		HttpURLConnection con = null;
+		try {
+			URL url = new URL(urlRest + "entities.passenger");
 
-          payload = "{\"ClinicNr\":" + et1.getText().toString() + ",\"Name\":\"" + et2.getText().toString() + "\"}";
-          OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
-          writer.write(payload, 0, payload.length());
-          writer.close();
-          con.connect();
-          BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8" ));
-          payload = reader.readLine();
-          reader.close();
-        }
-        catch (IOException e) {
-        }
-        finally {
-          if (con != null)
-            con.disconnect();
-        }*/
+			con = (HttpURLConnection) url.openConnection();
+			con.setReadTimeout(10000);
+			con.setConnectTimeout(15000);
+			con.setRequestMethod("POST");
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setRequestProperty("Content-Type", "application/json");
+			String payload = obj.toJSONString();
+			System.out.println("payload: " + payload);
+			OutputStreamWriter writer = new OutputStreamWriter(
+					con.getOutputStream(), "UTF-8");
+			writer.write(payload, 0, payload.length());
+			writer.close();
+			con.connect();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					con.getInputStream(), "UTF-8"));
+			payload = reader.readLine();
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("ERRO criação de um novo utilizador.");
+			return false;
+		} finally {
+			if (con != null)
+				con.disconnect();
+		}
+		return true;
 	}
-	
 }
