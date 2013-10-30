@@ -34,13 +34,11 @@ public class RestAPI {
 	 */
 	public static void main(String args[]) {
 		
-		//buyTickets("T3", 4);
-		ArrayList<Ticket> tickets = loadTicketListInBus(2);
-		System.out.println("bilhetes no bus 2:" + tickets);
-		//Ticket t1 = tickets.get(0);
-		//inspectTicket(t1);
-		//System.out.println("validado:" + t1);
-		
+		Ticket ticket = getTicketFromId("novoid");
+		System.out.println("antes: " + ticket);
+		//inspectTicket(ticket);
+		ticket = getTicketFromId("novoid");
+		System.out.println("depois: " + ticket);		
 	}
 
 	/**
@@ -245,55 +243,7 @@ public class RestAPI {
 		}
 		return true;
 	}
-	// MOVER função para o passenger_app/RestApi
-	@SuppressWarnings("unchecked")
-	@SuppressLint("SimpleDateFormat")
-	public static boolean validateTicket(Ticket ticket, int busid) {
-		//getting the actual time date
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
-		
-		// create the JSON object to send
-		JSONObject obj = new JSONObject();
-		obj.put("idticket", ticket.getIdticket());
-		obj.put("type", ticket.getType());
-		obj.put("isvalidated", true);
-		obj.put("ischecked", ticket.isChecked());
-		obj.put("timeodvalidation", dateFormat.format(date).toString());
-		obj.put("idbus", busid);
-
-		// send the updated ticket to server
-		HttpURLConnection con = null;
-		try {
-			URL url = new URL(urlRest + "entities.ticket");
-
-			con = (HttpURLConnection) url.openConnection();
-			con.setReadTimeout(10000);
-			con.setConnectTimeout(15000);
-			con.setRequestMethod("PUT");
-			con.setDoOutput(true);
-			con.setDoInput(true);
-			con.setRequestProperty("Content-Type", "application/json");
-			String payload = obj.toJSONString();
-			OutputStreamWriter writer = new OutputStreamWriter(
-					con.getOutputStream(), "UTF-8");
-			writer.write(payload, 0, payload.length());
-			writer.close();
-			con.connect();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					con.getInputStream(), "UTF-8"));
-			payload = reader.readLine();
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.err.println("ERRO validação do bilhete");
-			return false;
-		} finally {
-			if (con != null)
-				con.disconnect();
-		}
-		return true;
-	}
+	
 	//Mover para passenger_app
 	@SuppressWarnings("unchecked")
 	@SuppressLint("SimpleDateFormat")
@@ -309,7 +259,6 @@ public class RestAPI {
 		obj.put("creditcardvalidity", null);
 
 		// send the updated ticket to server
-		System.out.println("Herp derp!");
 		HttpURLConnection con = null;
 		try {
 			URL url = new URL(urlRest + "entities.passenger");
@@ -371,7 +320,11 @@ public class RestAPI {
 		return timeDifMinutes;
 	}
 	@SuppressWarnings("unchecked")
-	public static boolean inspectTicket(Ticket ticket) {
+	public static boolean inspectTicket(String ticketid, ArrayList<Ticket> ticketList) {
+		//get the ticket from server
+		Ticket ticket = getTicketFromId(ticketid);
+		if(!containsTicket(ticketList, ticket)) 
+			return false;
 		// create the JSON object to send
 		JSONObject obj = new JSONObject();
 		obj.put("idticket", ticket.getIdticket());
@@ -399,6 +352,10 @@ public class RestAPI {
 			writer.write(payload, 0, payload.length());
 			writer.close();
 			con.connect();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					con.getInputStream(), "UTF-8"));
+			payload = reader.readLine();
+			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.err.println("ERRO validação do bilhete");
@@ -408,5 +365,16 @@ public class RestAPI {
 				con.disconnect();
 		}
 		return true;
+	}
+
+	private static boolean containsTicket(ArrayList<Ticket> ticketList, Ticket ticket){
+		boolean contains = false;
+		for(int i = 0; i < ticketList.size(); i++){
+			if(ticketList.get(i).getIdticket().equals(ticket.getIdticket())){
+				contains = true;
+				break;
+			}										
+		}
+		return contains;
 	}
 }

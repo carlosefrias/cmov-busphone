@@ -6,16 +6,16 @@ import Entities.Ticket;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class TicketSelectionActivity extends Activity {
+public class SelectTicketActivity extends Activity {
 
 	private Bundle newbundle;
 	private Intent newIntent;
@@ -26,6 +26,9 @@ public class TicketSelectionActivity extends Activity {
 
 	private ArrayList<Ticket> ticketList;
 	private Ticket selectedTicket;
+	
+	private int toastDuration = Toast.LENGTH_LONG;
+	private static Boolean isValidTicket = false;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -39,11 +42,15 @@ public class TicketSelectionActivity extends Activity {
 		if (!ticketList.isEmpty())
 			selectedTicket = ticketList.get(0);
 
+		newbundle = new Bundle();
+		newIntent = new Intent(this.getApplicationContext(), SelectTicketActivity.class);
+		
 		// loading the view objects
 		ticktsSpinner = (Spinner) findViewById(R.id.ticket_selection_spinner);
 		validateButton = (Button) findViewById(R.id.ticket_selection_validate_button);
 		receiveButton = (Button) findViewById(R.id.ticket_selection_receive_button);
 		selectedTicketLabel = (TextView) findViewById(R.id.ticket_selection_receive_lebel);
+
 
 		validateButton.setEnabled(false);
 		
@@ -64,28 +71,45 @@ public class TicketSelectionActivity extends Activity {
         		if(v.getId() == R.id.ticket_selection_receive_button){
         			//TODO: receive from socket the ticket id from passenger application
         			//For now
-        			selectedTicket = new Ticket();
-        			selectedTicket.setIdticket("12345");
-        			validateButton.setEnabled(true);
-        			selectedTicketLabel.setText("Selected: " + selectedTicket.toStringShortVersion());
+        			//selectedTicket = new Ticket();
+        			//selectedTicket.setIdticket("12345");
+        			//validateButton.setEnabled(true);
+        			//selectedTicketLabel.setText("Selected: " + selectedTicket.toStringShortVersion());
         		}
             }
         });
 		validateButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				class InspectTicket implements Runnable{
+        			@Override
+        			public void run() {
+        				//gets from server the ticket with the id of the selected ticket
+            			final Boolean isAValidTicket = RestAPI.inspectTicket(selectedTicket.getIdticket(), ticketList);
+            			runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								isValidTicket = isAValidTicket;
+								//if the ticket is in the ticket list then its a valid ticket
+								if(isValidTicket){
+									Toast toast = Toast.makeText(getApplicationContext(), "Valid Ticket!!", toastDuration);
+									toast.show();
+									newbundle.putSerializable("key", ticketList);
+									newIntent.putExtras(newbundle);
+									startActivity(newIntent);
+								}else{
+									Toast toast = Toast.makeText(getApplicationContext(), "Invalid Ticket!!", toastDuration);
+									toast.show();								
+								}
+							}
+						});
+        			}
+        		}
 				if(v.getId() == R.id.ticket_selection_validate_button){
-					//TODO: send post validating the ticket
+					new Thread(new InspectTicket()).start();
 				}
 			}
 		});
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.ticket_selection, menu);
-		return true;
 	}
 	
 	private class MyOnItemSelectedListener implements OnItemSelectedListener{
