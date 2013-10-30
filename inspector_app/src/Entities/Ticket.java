@@ -1,15 +1,13 @@
 package Entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Ticket implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String idticket, type;
 	private boolean isvalidated, ischecked;
 	private String timeofvalidation;
-	private long busid; 
-	
+	private long busid;
 	
 	public String getIdticket() {
 		return idticket;

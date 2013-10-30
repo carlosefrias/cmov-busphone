@@ -38,7 +38,7 @@ public class BusSelectionActivity extends Activity {
         if(!busList.isEmpty()) selectedBus = busList.get(0);
         
 		bundleNext = new Bundle();
-		newIntent = new Intent(this.getApplicationContext(), TicketSelectionActivity.class);
+		newIntent = new Intent(this.getApplicationContext(), SelectTicketActivity.class);
 		
 		//loading the view objects
 		busSpinner = (Spinner) findViewById(R.id.bus_selection_BusList);

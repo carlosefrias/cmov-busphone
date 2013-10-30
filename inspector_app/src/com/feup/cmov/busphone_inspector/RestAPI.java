@@ -1,6 +1,7 @@
 package com.feup.cmov.busphone_inspector;
 
 import android.annotation.SuppressLint;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,28 +21,26 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import Entities.Bus;
+import Entities.Passenger;
 import Entities.Ticket;
 
 public class RestAPI {
-	private static String urlRest = "http://172.30.50.196:8080/WebServiceX/webresources/";
+	private static String urlRest = "http://172.29.109.8:8080/WebServiceX/webresources/";
 
-	/**
+	/**192.168.1.71
 	 * To be used as a testing function
 	 * 
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		// System.out.println(validateLogin("insp", "coiso"));
-		// System.out.println(validateLogin("insp", "pass2"));
-		// System.out.print(loadBusFromServer());
-		// System.out.println(loadTicketListInBus(2));
-		// validateTicket(tck);
-
-		//System.out.println(buyTickets("T1", 10));
-
-		Ticket tck = getTicketFromId("abcdef");
-		System.out.println("" + tck);
-		System.out.println(validateTicket(tck,5));
+		
+		//buyTickets("T3", 4);
+		ArrayList<Ticket> tickets = loadTicketListInBus(2);
+		System.out.println("bilhetes no bus 2:" + tickets);
+		//Ticket t1 = tickets.get(0);
+		//inspectTicket(t1);
+		//System.out.println("validado:" + t1);
+		
 	}
 
 	/**
@@ -55,7 +54,7 @@ public class RestAPI {
 		String payload = "Error";
 		try {
 			URL url = new URL(urlRest + entity + "/" + command);
-			System.out.println("" + url);
+			//System.out.println("" + url);
 			con = (HttpURLConnection) url.openConnection();
 			con.setReadTimeout(10000);
 			// con.setConnectTimeout(15000);
@@ -78,7 +77,7 @@ public class RestAPI {
 			if (con != null)
 				con.disconnect();
 		}
-		System.out.println(payload);
+		//System.out.println(payload);
 		return payload;
 	}
 
@@ -113,9 +112,7 @@ public class RestAPI {
 		ArrayList<Bus> result = new ArrayList<Bus>();
 
 		String serverResponse = getJSONResponse("entities.bus", "");
-
-		System.out.println("***" + serverResponse);
-
+		
 		if (serverResponse != "Error")
 			try {
 				JSONParser parser = new JSONParser();
@@ -159,13 +156,17 @@ public class RestAPI {
 					ticket.setIdticket((String) item.get("idticket"));
 					ticket.setType((String) item.get("type"));
 					ticket.setBusid((Long) item.get("idbus"));
-					ticket.setisChecked((Boolean) item.get("isused"));
+					ticket.setisChecked((Boolean) item.get("ischecked"));
 					ticket.setIsvalidated((Boolean) item.get("isvalidated"));
-					ticket.setTimeofvalidation((String) item
-							.get("timeodvalidation"));
-					// TODO: Acrescentar a condição do tempo...
-					if (ticket.getBusid() == idbus && ticket.isChecked()) {
-						// Adding the ticket to list
+					ticket.setTimeofvalidation((String) item.get("timeodvalidation"));
+					//calculating the time difference in minutes
+					long difMinutes = getDiffMinutes(ticket.getTimeofvalidation());
+					int maxMinutesAlowed;
+					if(ticket.getType().equalsIgnoreCase("T3")) maxMinutesAlowed = 60;
+					else if(ticket.getType().equalsIgnoreCase("T2")) maxMinutesAlowed = 30;
+					else maxMinutesAlowed = 15;
+					if (ticket.getBusid() == idbus && ticket.isIsvalidated() && difMinutes <= maxMinutesAlowed) {
+						// If the bus is right and it's a validated ticket and the time travel is right them lets add the ticket to the list
 						list.add(ticket);
 					}
 				}
@@ -185,8 +186,7 @@ public class RestAPI {
 				JSONObject jsonObject = (JSONObject) obj;
 				ticket.setIdticket((String) jsonObject.get("idticket"));
 				ticket.setisChecked((Boolean) jsonObject.get("ischecked"));
-				ticket.setTimeofvalidation((String) jsonObject
-						.get("timeodvalidation"));
+				ticket.setTimeofvalidation((String) jsonObject.get("timeodvalidation"));
 				ticket.setBusid((Long) jsonObject.get("idbus"));
 				ticket.setType((String) jsonObject.get("type"));
 				ticket.setIsvalidated((Boolean) jsonObject.get("isvalidated"));
@@ -197,51 +197,10 @@ public class RestAPI {
 		return ticket;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void validateTicket(Ticket ticketToUpdate) {
-		ticketToUpdate.setIsvalidated(true);
-		System.out.println("****" + ticketToUpdate);
-		// create the JSON object to send
-		JSONObject obj2 = new JSONObject();
-		obj2.put("idticket", ticketToUpdate.getIdticket());
-		obj2.put("type", ticketToUpdate.getType());
-		obj2.put("ischecked", ticketToUpdate.isIsvalidated());
-		obj2.put("ivalidated", ticketToUpdate.isChecked());
-		obj2.put("timeodvalidation", ticketToUpdate.getTimeofvalidation());
-		obj2.put("idbus", ticketToUpdate.getBusid());
-		// send the updated ticket to server
-		HttpURLConnection con = null;
-		try {
-			URL url = new URL(urlRest + "entities.ticket");
-
-			con = (HttpURLConnection) url.openConnection();
-			con.setReadTimeout(10000);
-			con.setConnectTimeout(15000);
-			con.setRequestMethod("PUT");
-			con.setDoOutput(true);
-			con.setDoInput(true);
-			con.setRequestProperty("Content-Type", "application/json");
-			String payload = obj2.toJSONString();
-			System.out.println("payload: " + payload);
-			OutputStreamWriter writer = new OutputStreamWriter(
-					con.getOutputStream(), "UTF-8");
-			writer.write(payload, 0, payload.length());
-			writer.close();
-			con.connect();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					con.getInputStream(), "UTF-8"));
-			payload = reader.readLine();
-			reader.close();
-		} catch (IOException e) {
-		} finally {
-			if (con != null)
-				con.disconnect();
-		}
-	}
-
 	// MOVER função para o passenger_app/RestApi
 	@SuppressWarnings("unchecked")
 	public static boolean buyTickets(String type, int numberOfTickets) {
+		if (numberOfTickets > 10 || numberOfTickets < 0) return false;
 		for (int i = 0; i < numberOfTickets; i++) {
 			// create the JSON object to send
 			JSONObject obj = new JSONObject();
@@ -249,9 +208,9 @@ public class RestAPI {
 			obj.put("type", type);
 			obj.put("isvalidated", false);
 			obj.put("ischecked", false);
-			obj.put("timeodvalidation", null);
-			obj.put("idbus", null);
-
+			obj.put("timeodvalidation", "1990/01/01 00:00:00");
+			obj.put("idbus", -1);
+			//TODO: colocar o registo na tabela passanger tickets
 			// send the updated ticket to server
 			HttpURLConnection con = null;
 			try {
@@ -271,7 +230,6 @@ public class RestAPI {
 				writer.write(payload, 0, payload.length());
 				writer.close();
 				con.connect();
-				System.out.println("conecta!!!");
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(con.getInputStream(), "UTF-8"));
 				payload = reader.readLine();
@@ -287,7 +245,7 @@ public class RestAPI {
 		}
 		return true;
 	}
-
+	// MOVER função para o passenger_app/RestApi
 	@SuppressWarnings("unchecked")
 	@SuppressLint("SimpleDateFormat")
 	public static boolean validateTicket(Ticket ticket, int busid) {
@@ -317,6 +275,53 @@ public class RestAPI {
 			con.setDoInput(true);
 			con.setRequestProperty("Content-Type", "application/json");
 			String payload = obj.toJSONString();
+			OutputStreamWriter writer = new OutputStreamWriter(
+					con.getOutputStream(), "UTF-8");
+			writer.write(payload, 0, payload.length());
+			writer.close();
+			con.connect();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					con.getInputStream(), "UTF-8"));
+			payload = reader.readLine();
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("ERRO validação do bilhete");
+			return false;
+		} finally {
+			if (con != null)
+				con.disconnect();
+		}
+		return true;
+	}
+	//Mover para passenger_app
+	@SuppressWarnings("unchecked")
+	@SuppressLint("SimpleDateFormat")
+	public static boolean addUser(Passenger passenger) {
+		// create the JSON object to send
+		JSONObject obj = new JSONObject();
+		obj.put("login", passenger.getLogin());
+		obj.put("password", passenger.getPassword());
+		obj.put("name", passenger.getFullName());
+		obj.put("surname", "surname");
+		obj.put("creditcardtype", passenger.getCreditCardType());
+		obj.put("creditcardnumber", passenger.getCreditCardNumber());
+		obj.put("creditcardvalidity", null);
+
+		// send the updated ticket to server
+		System.out.println("Herp derp!");
+		HttpURLConnection con = null;
+		try {
+			URL url = new URL(urlRest + "entities.passenger");
+
+			con = (HttpURLConnection) url.openConnection();
+			con.setReadTimeout(10000);
+			con.setConnectTimeout(15000);
+			con.setRequestMethod("POST");
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setRequestProperty("Content-Type", "application/json");
+			String payload = obj.toJSONString();
 			System.out.println("payload: " + payload);
 			OutputStreamWriter writer = new OutputStreamWriter(
 					con.getOutputStream(), "UTF-8");
@@ -327,6 +332,73 @@ public class RestAPI {
 					con.getInputStream(), "UTF-8"));
 			payload = reader.readLine();
 			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("ERRO criação de um novo utilizador.");
+			return false;
+		} finally {
+			if (con != null)
+				con.disconnect();
+		}
+		return true;
+	}
+
+	@SuppressLint("SimpleDateFormat")
+	private static long getDiffMinutes(String ticketDateString){
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	    Date  ticketDate = null;
+	    long timeDifMinutes = -1;
+	    try {
+        	ticketDate = df.parse(ticketDateString);
+    		Date actualDate = new Date();
+    		
+            long milliSecAnterior = ticketDate.getTime();
+            long milliSecAtual = actualDate.getTime();
+     
+            long timeDifInMilliSec;
+            if(milliSecAtual >= milliSecAnterior)
+            {
+                timeDifInMilliSec = milliSecAtual - milliSecAnterior;
+            }
+            else
+            {
+                return -1;
+            }
+            timeDifMinutes = timeDifInMilliSec / (60 * 1000);
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+		return timeDifMinutes;
+	}
+	@SuppressWarnings("unchecked")
+	public static boolean inspectTicket(Ticket ticket) {
+		// create the JSON object to send
+		JSONObject obj = new JSONObject();
+		obj.put("idticket", ticket.getIdticket());
+		obj.put("type", ticket.getType());
+		obj.put("isvalidated", ticket.isIsvalidated());
+		obj.put("ischecked", true);
+		obj.put("timeodvalidation", ticket.getTimeofvalidation());
+		obj.put("idbus", ticket.getBusid());
+
+		// send the updated ticket to server
+		HttpURLConnection con = null;
+		try {
+			URL url = new URL(urlRest + "entities.ticket");
+
+			con = (HttpURLConnection) url.openConnection();
+			con.setReadTimeout(10000);
+			con.setConnectTimeout(15000);
+			con.setRequestMethod("PUT");
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setRequestProperty("Content-Type", "application/json");
+			String payload = obj.toJSONString();
+			OutputStreamWriter writer = new OutputStreamWriter(
+					con.getOutputStream(), "UTF-8");
+			writer.write(payload, 0, payload.length());
+			writer.close();
+			con.connect();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.err.println("ERRO validação do bilhete");
