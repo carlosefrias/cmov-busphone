@@ -3,6 +3,7 @@ package com.feup.cmov.busphone_passenger;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
 
 public class SignUpActivity extends Activity {
 
@@ -19,4 +20,7 @@ public class SignUpActivity extends Activity {
 		return true;
 	}
 
+	public void createAccountAction(View view){
+		
+	}
 }
