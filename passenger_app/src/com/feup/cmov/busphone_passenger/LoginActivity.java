@@ -14,10 +14,10 @@ import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener {
 	private EditText usernameText, passwordText;
-	private Button loginButton;
+	private Button loginButton, signUpButton;
 	private static boolean logedIn = false;
 	private Bundle bundle;
-	private Intent newIntent;
+	private Intent newIntent, signUpIntent;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,9 +26,12 @@ public class LoginActivity extends Activity implements OnClickListener {
 		usernameText = (EditText) findViewById(R.id.loginUsernameEditText);
 		passwordText = (EditText) findViewById(R.id.loginPasswordEditText);
 		loginButton = (Button) findViewById(R.id.loginSignInButton);
+		signUpButton = (Button) findViewById(R.id.loginSignUpButton);
 		loginButton.setOnClickListener(this);
+		signUpButton.setOnClickListener(this);
 		bundle = new Bundle();
 		newIntent = new Intent(this.getApplicationContext(), ShowTicketsActivity.class);
+		signUpIntent = new Intent(this.getApplicationContext(), SignUpActivity.class);
 	}
 
 	@Override
@@ -48,8 +51,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 			@Override
 			public void run() {
 				final boolean isValidLogin = RestAPI.validateLogin(user, pass);
-				//Load the user's tickets from database
-				//final ArrayList<Bus> bus = RestAPI.loadBusFromServer();
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -57,7 +58,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 						if(logedIn){
 							//Login successful
 							Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
-							//passing the tickets to next activity
 							//bundle.putSerializable("key", bus);
 							newIntent.putExtras(bundle);
 							startActivity(newIntent);
@@ -75,6 +75,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 			String username = usernameText.getText().toString();
 			String password = passwordText.getText().toString();
 			new Thread(new LoginRunnable(username, password)).start();
+		}
+		else if(v.getId() == R.id.loginSignUpButton){
+			signUpIntent.putExtras(bundle);
+			startActivity(signUpIntent);			
 		}
 	}
 

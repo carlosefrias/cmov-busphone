@@ -5,7 +5,6 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,8 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Ticket.findAll", query = "SELECT t FROM Ticket t"),
     @NamedQuery(name = "Ticket.findByIdticket", query = "SELECT t FROM Ticket t WHERE t.idticket = :idticket"),
     @NamedQuery(name = "Ticket.findByType", query = "SELECT t FROM Ticket t WHERE t.type = :type"),
+    @NamedQuery(name = "Ticket.findByIschecked", query = "SELECT t FROM Ticket t WHERE t.ischecked = :ischecked"),
     @NamedQuery(name = "Ticket.findByIsvalidated", query = "SELECT t FROM Ticket t WHERE t.isvalidated = :isvalidated"),
-    @NamedQuery(name = "Ticket.findByIsused", query = "SELECT t FROM Ticket t WHERE t.isused = :isused"),
     @NamedQuery(name = "Ticket.findByTimeodvalidation", query = "SELECT t FROM Ticket t WHERE t.timeodvalidation = :timeodvalidation"),
     @NamedQuery(name = "Ticket.findByIdbus", query = "SELECT t FROM Ticket t WHERE t.idbus = :idbus")})
 public class Ticket implements Serializable {
@@ -49,15 +46,15 @@ public class Ticket implements Serializable {
     private String type;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "isvalidated")
-    private boolean isvalidated;
+    @Column(name = "ischecked")
+    private boolean ischecked;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "isused")
-    private boolean isused;
+    @Column(name = "isvalidated")
+    private boolean isvalidated;
+    @Size(max = 20)
     @Column(name = "timeodvalidation")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date timeodvalidation;
+    private String timeodvalidation;
     @Column(name = "idbus")
     private Integer idbus;
 
@@ -68,11 +65,11 @@ public class Ticket implements Serializable {
         this.idticket = idticket;
     }
 
-    public Ticket(String idticket, String type, boolean isvalidated, boolean isused) {
+    public Ticket(String idticket, String type, boolean ischecked, boolean isvalidated) {
         this.idticket = idticket;
         this.type = type;
+        this.ischecked = ischecked;
         this.isvalidated = isvalidated;
-        this.isused = isused;
     }
 
     public String getIdticket() {
@@ -91,6 +88,14 @@ public class Ticket implements Serializable {
         this.type = type;
     }
 
+    public boolean getIschecked() {
+        return ischecked;
+    }
+
+    public void setIschecked(boolean ischecked) {
+        this.ischecked = ischecked;
+    }
+
     public boolean getIsvalidated() {
         return isvalidated;
     }
@@ -99,19 +104,11 @@ public class Ticket implements Serializable {
         this.isvalidated = isvalidated;
     }
 
-    public boolean getIsused() {
-        return isused;
-    }
-
-    public void setIsused(boolean isused) {
-        this.isused = isused;
-    }
-
-    public Date getTimeodvalidation() {
+    public String getTimeodvalidation() {
         return timeodvalidation;
     }
 
-    public void setTimeodvalidation(Date timeodvalidation) {
+    public void setTimeodvalidation(String timeodvalidation) {
         this.timeodvalidation = timeodvalidation;
     }
 

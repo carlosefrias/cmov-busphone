@@ -21,7 +21,7 @@ import Entities.Ticket;
 
 
 public class RestAPI {
-	private static String urlRest = "http://172.30.50.196:8080/WebServiceX/webresources/";
+	private static String urlRest = "http://172.29.109.8:8080/WebServiceX/webresources/";
 	/**
 	 * To be used as a testing function
 	 * @param args
@@ -80,7 +80,7 @@ public class RestAPI {
 	 * @return
 	 */
 	public static boolean validateLogin(String username, String password) {
-		String serverResponse = getJSONResponse("entities.inspector",username);
+		String serverResponse = getJSONResponse("entities.passenger",username);
 		String returnedPassword = "FAILED_RESPONSE";
 		if (serverResponse != "Error")
 			try {
@@ -146,7 +146,6 @@ public class RestAPI {
 		}
 		return true;
 	}
-
 
 	@SuppressWarnings("unused")
 	private static Passenger getPassenger(String username) {
