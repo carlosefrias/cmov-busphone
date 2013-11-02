@@ -1,9 +1,10 @@
 package Entities;
 
 public class Passenger {
-	private String login, password, fullName, creditCardType, creditCardValidity;
-	private int creditCardNumber;
-	
+	private String login, password, fullName, creditCardType,
+			creditCardValidity;
+	private long creditCardNumber;
+
 	public String getLogin() {
 		return login;
 	}
@@ -44,7 +45,7 @@ public class Passenger {
 		this.creditCardValidity = creditCardValidity;
 	}
 
-	public int getCreditCardNumber() {
+	public long getCreditCardNumber() {
 		return creditCardNumber;
 	}
 
@@ -52,16 +53,25 @@ public class Passenger {
 		this.creditCardNumber = creditCardNumber;
 	}
 
-	public Passenger(){
+	public Passenger() {
 		super();
 	}
-	
-	public Passenger(String l, String p, String fN, String cCT, int cCN, String cCV){
+
+	public Passenger(String l, String p, String fN, String cCT, long cCN,
+			String cCV) {
 		login = l;
 		password = p;
 		fullName = fN;
 		creditCardType = cCT;
 		creditCardNumber = cCN;
 		creditCardValidity = cCV;
+	}
+
+	@Override
+	public String toString() {
+		return "login: " + login + ";\nName: " + fullName
+				+ ";\nCreditcard number: " + creditCardNumber
+				+ ";\nCreditcard type: " + creditCardType
+				+ ";\nCreditcard validity: " + creditCardValidity;
 	}
 }

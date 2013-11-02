@@ -7,12 +7,17 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.UUID;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import android.annotation.SuppressLint;
 import Entities.Passenger;
+import Entities.Ticket;
 
 
 public class RestAPI {
@@ -88,73 +93,13 @@ public class RestAPI {
 			}
 		return (password.equals(returnedPassword));
 	}
+
 	/**
-	 * Function that returns the list of busses from database
-	 * @return
+	 * Function that adds an user to the server database
+	 * 
+	 * @param passenger
+	 * @return success/fail
 	 */
-	/*public static ArrayList<Bus> loadBusFromServer(){
-		ArrayList<Bus> result = new ArrayList<Bus>();
-		
-		String serverResponse = getJSONResponse("entities.bus", "");
-		
-		System.out.println("***"+serverResponse);
-		
-		if (serverResponse != "Error")
-			try {
-				JSONParser parser = new JSONParser();				
-				Object obj = parser.parse(serverResponse);				
-				JSONArray jsonArray = (JSONArray) obj;				
-				@SuppressWarnings("unchecked")
-				Iterator<JSONObject> iterator = jsonArray.iterator();
-					while (iterator.hasNext()) {
-						JSONObject item = iterator.next();
-						long idbus = (Long) item.get("idbus");
-						Bus bus = new Bus((int) idbus);
-						result.add(bus);
-					}				
-			} catch (Exception e) {
-				e.printStackTrace();
-				//System.err.println("error while parsing json object");
-			}		
-		return result;	
-	}*/
-	/**
-	 * Function that returns the list of used tickets in a given bus
-	 * @param idbus
-	 * @return
-	 */
-	/*public static ArrayList<Ticket> loadTicketListInBus(int idbus){
-		ArrayList<Ticket> list = new ArrayList<Ticket>();
-		String allTickets = getJSONResponse("entities.ticket", "");
-		if (allTickets != "Error")	
-			try {
-				JSONParser parser = new JSONParser();				
-				Object obj = parser.parse(allTickets);
-				JSONArray jsonArray = (JSONArray) obj;		
-				@SuppressWarnings("unchecked")
-				Iterator<JSONObject> iterator = jsonArray.iterator();
-					while (iterator.hasNext()) {								
-						JSONObject item = iterator.next();
-						//Building the ticket
-						Ticket ticket = new Ticket();
-						ticket.setIdticket((String)item.get("idticket"));
-						ticket.setType((String)item.get("type"));
-						ticket.setBusid((Long)item.get("idbus"));
-						ticket.setIsused((Boolean)item.get("isused"));
-						ticket.setIsvalidated((Boolean)item.get("isvalidated"));
-						ticket.setTimeofvalidation((Date)item.get("timeodvalidation"));
-						//TODO: Acrescentar a condição do tempo...
-						if(ticket.getBusid() == idbus && ticket.isIsused()){
-							//Adding the ticket to list
-							list.add(ticket);
-						}
-					}				
-			} catch (Exception e) {
-				System.err.println("error while parsing json object");
-			}				
-		return list;		
-	}*/
-	
 	@SuppressWarnings("unchecked")
 	@SuppressLint("SimpleDateFormat")
 	public static boolean addUser(Passenger passenger) {
@@ -163,10 +108,10 @@ public class RestAPI {
 		obj.put("login", passenger.getLogin());
 		obj.put("password", passenger.getPassword());
 		obj.put("name", passenger.getFullName());
-		obj.put("surname", "surname");
+		obj.put("surname", "");
 		obj.put("creditcardtype", passenger.getCreditCardType());
 		obj.put("creditcardnumber", passenger.getCreditCardNumber());
-		obj.put("creditcardvalidity", null);
+		obj.put("creditcardvalidity", passenger.getCreditCardValidity());
 
 		// send the updated ticket to server
 		HttpURLConnection con = null;
@@ -193,12 +138,217 @@ public class RestAPI {
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.err.println("ERRO cria‹o de um novo utilizador.");
+			System.err.println("Unable to create a new passenger");
 			return false;
 		} finally {
 			if (con != null)
 				con.disconnect();
 		}
 		return true;
+	}
+
+
+	@SuppressWarnings("unused")
+	private static Passenger getPassenger(String username) {
+		String serverresponse = getJSONResponse("entities.passenger", username);
+		if (!serverresponse.equals("Error")) {
+			try {
+				JSONParser parser = new JSONParser();
+				Object obj = parser.parse(serverresponse);
+				JSONObject jsonObject = (JSONObject) obj;
+				Passenger p = new Passenger((String) jsonObject.get("login"),
+						(String) jsonObject.get("password"),
+						(String) jsonObject.get("name"),
+						(String) jsonObject.get("creditcardtype"),
+						(Long) jsonObject.get("creditcardnumber"),
+						(String) jsonObject.get("creditcardvalidity"));
+				return p;
+			} catch (Exception e) {
+				System.err.println("Unable to return passenger from server");
+				e.printStackTrace();
+				return null;
+			}
+		} else
+			return null;
+	}
+
+	/**
+	 * Function that allows an user to by tickets
+	 * 
+	 * @param type
+	 * @param numberOfTickets
+	 * @param passenger
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static boolean buyTickets(String type, int numberOfTickets,
+			Passenger passenger) {
+		if (numberOfTickets > 10 || numberOfTickets < 0)
+			return false;
+		for (int i = 0; i < numberOfTickets; i++) {
+			// create the JSON object to send
+			JSONObject objTicket = new JSONObject();
+			String ticketUniqueID = UUID.randomUUID().toString();
+			objTicket.put("idticket", ticketUniqueID);
+			objTicket.put("type", type);
+			objTicket.put("isvalidated", false);
+			objTicket.put("ischecked", false);
+			objTicket.put("timeodvalidation", "1990/01/01 00:00:00");// default date
+			objTicket.put("idbus", -1);// default bus
+
+			JSONObject obj = new JSONObject();
+			obj.put("ticketid", ticketUniqueID);
+			obj.put("loginpassenger", passenger.getLogin());
+			JSONObject objPassengerTicket = new JSONObject();
+			objPassengerTicket.put("passengerticketsPK", obj);
+
+			System.out.println(objPassengerTicket.toJSONString());
+
+			// send the updated ticket to server
+			HttpURLConnection conTicket = null, conPassegerTicket = null;
+			try {
+				URL urlTicket = new URL(urlRest + "entities.ticket");
+				URL urlPassengerTicket = new URL(urlRest
+						+ "entities.passengertickets");
+
+				conTicket = (HttpURLConnection) urlTicket.openConnection();
+				conPassegerTicket = (HttpURLConnection) urlPassengerTicket
+						.openConnection();
+
+				conTicket.setReadTimeout(10000);
+				conPassegerTicket.setReadTimeout(10000);
+
+				conTicket.setConnectTimeout(15000);
+				conPassegerTicket.setConnectTimeout(15000);
+
+				conTicket.setRequestMethod("POST");
+				conPassegerTicket.setRequestMethod("POST");
+
+				conTicket.setDoOutput(true);
+				conPassegerTicket.setDoOutput(true);
+
+				conTicket.setDoInput(true);
+				conPassegerTicket.setDoInput(true);
+
+				conTicket
+						.setRequestProperty("Content-Type", "application/json");
+				conPassegerTicket.setRequestProperty("Content-Type",
+						"application/json");
+
+				String payloadTicket = objTicket.toJSONString();
+				String payloadPassengerTicket = objPassengerTicket
+						.toJSONString();
+
+				OutputStreamWriter writerTicket = new OutputStreamWriter(
+						conTicket.getOutputStream(), "UTF-8");
+				OutputStreamWriter writerPassengerTicket = new OutputStreamWriter(
+						conPassegerTicket.getOutputStream(), "UTF-8");
+
+				writerTicket.write(payloadTicket, 0, payloadTicket.length());
+				writerPassengerTicket.write(payloadPassengerTicket, 0,
+						payloadPassengerTicket.length());
+
+				writerTicket.close();
+				writerPassengerTicket.close();
+
+				conTicket.connect();
+				conPassegerTicket.connect();
+
+				BufferedReader readerTicket = new BufferedReader(
+						new InputStreamReader(conTicket.getInputStream(),
+								"UTF-8"));
+				BufferedReader readerPassengerTicket = new BufferedReader(
+						new InputStreamReader(
+								conPassegerTicket.getInputStream(), "UTF-8"));
+
+				payloadTicket = readerTicket.readLine();
+				payloadPassengerTicket = readerPassengerTicket.readLine();
+
+				readerTicket.close();
+				readerPassengerTicket.close();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.err.println("Error while trying to buy tickets");
+				return false;
+			} finally {
+				if (conTicket != null)
+					conTicket.disconnect();
+				if (conPassegerTicket != null)
+					conPassegerTicket.disconnect();
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Function that returns the passenger list of unused tickets
+	 * 
+	 * @param passenger
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static ArrayList<Ticket> getPassengerUnusedTickets(
+			Passenger passenger) {
+		ArrayList<Ticket> list = new ArrayList<Ticket>();
+
+		String allPassengerTickets = getJSONResponse(
+				"entities.passengertickets", "");
+
+		if (!allPassengerTickets.equals("Error"))
+			try {
+				JSONParser parser = new JSONParser();
+				Object obj = parser.parse(allPassengerTickets);
+				JSONArray jsonArray = (JSONArray) obj;
+				Iterator<JSONObject> iterator = jsonArray.iterator();
+				while (iterator.hasNext()) {
+					JSONObject item = iterator.next();
+					JSONObject passticketObj = (JSONObject) item
+							.get("passengerticketsPK");
+					String p = (String) passticketObj.get("loginpassenger");
+					String ticketid = (String) passticketObj.get("ticketid");
+					// If the login passenger from the passenger tickets row
+					// equals the passenger login
+					if (passenger.getLogin().equals(p)) {
+						Ticket ticket = getTicketFromId(ticketid);
+						// and the ticket is unused, then add it to the list
+						if (!ticket.isIsvalidated())
+							list.add(ticket);
+					}
+				}
+			} catch (Exception e) {
+				System.err
+						.println("error while retrieving passenger unused tickets");
+				e.printStackTrace();
+			}
+
+		return list;
+	}
+	/**
+	 * Function that returns the ticket given it's id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private static Ticket getTicketFromId(String id) {
+		String serverResponse = getJSONResponse("entities.ticket", "" + id);
+		Ticket ticket = new Ticket();
+		if (serverResponse != "Error")
+			try {
+				JSONParser parser = new JSONParser();
+				Object obj = parser.parse(serverResponse);
+				JSONObject jsonObject = (JSONObject) obj;
+				ticket.setIdticket((String) jsonObject.get("idticket"));
+				ticket.setisChecked((Boolean) jsonObject.get("ischecked"));
+				ticket.setTimeofvalidation((String) jsonObject
+						.get("timeodvalidation"));
+				ticket.setBusid((Long) jsonObject.get("idbus"));
+				ticket.setType((String) jsonObject.get("type"));
+				ticket.setIsvalidated((Boolean) jsonObject.get("isvalidated"));
+			} catch (Exception e) {
+				System.err.println("Error while parsing JSON object");
+				e.printStackTrace();
+			}
+		return ticket;
 	}
 }

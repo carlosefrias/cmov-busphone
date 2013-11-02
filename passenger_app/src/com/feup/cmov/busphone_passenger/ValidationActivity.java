@@ -30,7 +30,7 @@ public class ValidationActivity extends Activity {
 		setContentView(R.layout.activity_itemoption_validation);
 		
 		// Show the Up button in the action bar.
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		//getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		this.connection = new ValidationServiceConnection();
         this.replyTo = new Messenger(new IncomingResponseHandler());

@@ -1,0 +1,108 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (javaClasses.cpp:129), pid=3912, tid=6604
+#  fatal error: Invalid layout of preloaded class
+#
+# JRE version: 7.0_21-b11
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (23.21-b01 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.sun.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000000000284d800):  JavaThread "Unknown thread" [_thread_in_vm, id=6604, stack(0x00000000028a0000,0x00000000029a0000)]
+
+Stack: [0x00000000028a0000,0x00000000029a0000]
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x000000000284d800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=6604, stack(0x00000000028a0000,0x00000000029a0000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (10 events):
+Event: 0.027 loading class 0x00000000029e9a20 done
+Event: 0.028 loading class 0x00000000029afff0 done
+Event: 0.028 loading class 0x00000000029afe70
+Event: 0.028 loading class 0x00000000029f1370
+Event: 0.028 loading class 0x00000000029f1370 done
+Event: 0.028 loading class 0x00000000029f1a30
+Event: 0.047 loading class 0x00000000029f1a30 done
+Event: 0.047 loading class 0x0000000008c2ca20
+Event: 0.048 loading class 0x0000000008c2ca20 done
+Event: 0.049 loading class 0x00000000029afe70 done
+
+
+Dynamic libraries:
+0x000007f76a010000 - 0x000007f76a043000 	C:\Program Files\Java\jre7\bin\javaw.exe
+0x000007fa56070000 - 0x000007fa56230000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x000007fa54290000 - 0x000007fa543c6000 	C:\WINDOWS\system32\KERNEL32.DLL
+0x000007fa53280000 - 0x000007fa53373000 	C:\WINDOWS\system32\KERNELBASE.dll
+0x000007fa53700000 - 0x000007fa537de000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x000007fa53970000 - 0x000007fa53abc000 	C:\WINDOWS\system32\USER32.dll
+0x000007fa4fdb0000 - 0x000007fa5001a000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.9200.16579_none_418ab7ef718b27ef\COMCTL32.dll
+0x000007fa53ef0000 - 0x000007fa53f95000 	C:\WINDOWS\system32\msvcrt.dll
+0x000007fa55fe0000 - 0x000007fa56028000 	C:\WINDOWS\SYSTEM32\sechost.dll
+0x000007fa53fa0000 - 0x000007fa540e5000 	C:\WINDOWS\system32\RPCRT4.dll
+0x000007fa54940000 - 0x000007fa54a81000 	C:\WINDOWS\system32\GDI32.dll
+0x000007fa56030000 - 0x000007fa56069000 	C:\WINDOWS\system32\IMM32.DLL
+0x000007fa543e0000 - 0x000007fa544f6000 	C:\WINDOWS\system32\MSCTF.dll
+0x00000000557c0000 - 0x0000000055891000 	C:\Program Files\Java\jre7\bin\msvcr100.dll
+0x0000000055090000 - 0x00000000557b1000 	C:\Program Files\Java\jre7\bin\server\jvm.dll
+0x000007fa411d0000 - 0x000007fa411d9000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x000007fa49ab0000 - 0x000007fa49ad0000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x000007fa534c0000 - 0x000007fa534c7000 	C:\WINDOWS\system32\PSAPI.DLL
+0x000007fa53460000 - 0x000007fa534b8000 	C:\WINDOWS\system32\WS2_32.dll
+0x000007fa49a70000 - 0x000007fa49aa3000 	C:\WINDOWS\SYSTEM32\WINMMBASE.dll
+0x000007fa543d0000 - 0x000007fa543d9000 	C:\WINDOWS\system32\NSI.dll
+0x000007fa53230000 - 0x000007fa5327f000 	C:\WINDOWS\SYSTEM32\cfgmgr32.dll
+0x000007fa53430000 - 0x000007fa53452000 	C:\WINDOWS\system32\DEVOBJ.dll
+0x0000000055080000 - 0x000000005508f000 	C:\Program Files\Java\jre7\bin\verify.dll
+0x0000000055050000 - 0x0000000055078000 	C:\Program Files\Java\jre7\bin\java.dll
+0x0000000055030000 - 0x0000000055045000 	C:\Program Files\Java\jre7\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1252 -Xbootclasspath:D:\adt-bundle-windows-x86_64-20130729\adt-bundle-windows-x86_64-20130729\sdk\platforms\android-18\android.jar 
+java_command: com.feup.cmov.busphone_terminal.RestAPI
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;D:\Program Files\TortoiseSVN\bin;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files (x86)\Windows Kits\8.0\Windows Performance Toolkit\;D:\OpenCV246\build\x86\vc10\bin;D:\Program Files\MySQL\MySQL Utilities 1.3.4\;D:\Program Files\TortoiseGit\bin;D:\RailsInstaller\Git\cmd;D:\RailsInstaller\Ruby1.9.3\bin;D:\OpenCV\build\x86\vc11\bin
+USERNAME=Carlos
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 37 Stepping 5, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 8 , 64 bit Build 9200 
+
+CPU:total 4 (2 cores per cpu, 2 threads per core) family 6 model 37 stepping 5, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, ht, tsc, tscinvbit
+
+Memory: 4k page, physical 3977780k(927084k free), swap 7647796k(2513260k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (23.21-b01) for windows-amd64 JRE (1.7.0_21-b11), built on Apr  4 2013 08:11:28 by "java_re" with unknown MS VC++:1600
+
+time: Wed Oct 30 17:06:08 2013
+elapsed time: 0 seconds
+
