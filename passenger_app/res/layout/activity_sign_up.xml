@@ -127,14 +127,11 @@
                 android:layout_height="wrap_content" >
                 
                 <!-- Tutorial here: http://www.codinguser.com/2012/06/time-and-date-inputs-in-android/ -->
-                <EditText 
-                    android:id="@+id/newCreditCardValidityEditText"
+
+                <DatePicker
+                    android:id="@+id/datePicker"
                     android:layout_width="match_parent"
-                    android:layout_height="60dip"
-                    android:layout_weight="1"
-                    android:inputType="date"
-                    android:hint="@string/new_credit_card_validity_label"/>
-                
+                    android:layout_height="wrap_content" />
                 
             </TableRow>
         </TableLayout>

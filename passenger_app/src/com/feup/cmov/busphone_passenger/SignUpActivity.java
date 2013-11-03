@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -16,13 +17,14 @@ import android.widget.Toast;
 public class SignUpActivity extends Activity implements OnClickListener {
 
 	private EditText usernameText, passwordText, confPassText, fullNameText,
-			creditCardNumText, creditCardValText;
+			creditCardNumText;
+	private DatePicker creditCardValDatePicker;
 	private Spinner creditCardTypeSpinner;
 	private Button createAccountButton;
 	private static boolean userAdded = false;
 	
 	private String selectedCreditCardType = "";
-	private String[] creditCardTypes;
+	private String[] creditCardTypes, monthList;
 	private Bundle bundle;
 	private Intent newIntent;
 
@@ -40,10 +42,11 @@ public class SignUpActivity extends Activity implements OnClickListener {
 		creditCardTypeSpinner = (Spinner) findViewById(R.id.newCreditCardTypeSpinner);
 		//TODO: Implement a DatePicker for the selection of the validity of the credit card
 		//For now
-		creditCardValText = (EditText) findViewById(R.id.newCreditCardValidityEditText);
+		creditCardValDatePicker = (DatePicker) findViewById(R.id.datePicker);
 		createAccountButton = (Button) findViewById(R.id.signUpCreateAccountButton);
 		
 		creditCardTypes = new String [] {"", "VISA", "MasterCard", "American Express", "Maestro"};
+		monthList = new String[] {"Jan", "Fev", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 		// setting the listeners 
 		createAccountButton.setOnClickListener(this);
 		
@@ -92,8 +95,11 @@ public class SignUpActivity extends Activity implements OnClickListener {
 			if (passwordText.getText().toString().equals(confPassText.getText().toString())) {
 				String username = usernameText.getText().toString(), 
 						password = passwordText.getText().toString(), 
-						fullname = fullNameText.getText().toString(), 
-						creditCardVal = creditCardValText.getText().toString();
+						fullname = fullNameText.getText().toString();
+				int day = creditCardValDatePicker.getDayOfMonth();
+				String month = monthList[creditCardValDatePicker.getMonth()];
+				int year = creditCardValDatePicker.getYear();
+				String creditCardVal = "" + year + "/" + month + "/" + day;
 				Long creditCardNumber = Long.parseLong(creditCardNumText
 						.getText().toString());
 				String creditCardType = selectedCreditCardType;
