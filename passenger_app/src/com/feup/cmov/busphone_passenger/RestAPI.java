@@ -146,8 +146,12 @@ public class RestAPI {
 		}
 		return true;
 	}
-
-	@SuppressWarnings("unused")
+	
+	/**
+	 * Function that returns a passenger given it's username
+	 * @param username
+	 * @return
+	 */
 	private static Passenger getPassenger(String username) {
 		String serverresponse = getJSONResponse("entities.passenger", username);
 		if (!serverresponse.equals("Error")) {
@@ -180,9 +184,9 @@ public class RestAPI {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static boolean buyTickets(String type, int numberOfTickets,
-			Passenger passenger) {
-		if (numberOfTickets > 10 || numberOfTickets < 0)
+	public static boolean buyTickets(String type, int numberOfTickets, String username) {
+		Passenger passenger = getPassenger(username);
+		if (numberOfTickets > 10 || numberOfTickets < 0 || passenger == null)
 			return false;
 		for (int i = 0; i < numberOfTickets; i++) {
 			// create the JSON object to send
@@ -323,6 +327,7 @@ public class RestAPI {
 
 		return list;
 	}
+	
 	/**
 	 * Function that returns the ticket given it's id
 	 * 

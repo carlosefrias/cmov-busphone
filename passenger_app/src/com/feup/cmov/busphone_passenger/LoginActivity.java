@@ -58,7 +58,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 						if(logedIn){
 							//Login successful
 							Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
-							//bundle.putSerializable("key", bus);
+							bundle.putSerializable("username", usernameText.getText().toString());
 							newIntent.putExtras(bundle);
 							startActivity(newIntent);
 							

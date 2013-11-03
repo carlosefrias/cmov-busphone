@@ -49,7 +49,7 @@ public class Passenger {
 		return creditCardNumber;
 	}
 
-	public void setCreditCardNumber(int creditCardNumber) {
+	public void setCreditCardNumber(long creditCardNumber) {
 		this.creditCardNumber = creditCardNumber;
 	}
 
