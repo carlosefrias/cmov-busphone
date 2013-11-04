@@ -30,7 +30,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		loginButton.setOnClickListener(this);
 		signUpButton.setOnClickListener(this);
 		bundle = new Bundle();
-		newIntent = new Intent(this.getApplicationContext(), ShowTicketsActivity.class);
+		newIntent = new Intent(this.getApplicationContext(), BuyTicktsActivity.class);
 		signUpIntent = new Intent(this.getApplicationContext(), SignUpActivity.class);
 	}
 

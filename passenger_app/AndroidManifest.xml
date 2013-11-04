@@ -8,9 +8,8 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
-    <uses-permission 
-        android:name="android.permission.INTERNET"/>
-    
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -36,9 +35,13 @@
         <activity
             android:name="com.feup.cmov.busphone_passenger.ValidationActivity"
             android:label="@string/title_activity_validation" >
-            <meta-data 
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-       	 		android:value="com.feup.cmov.busphone_passenger.ShowTicketsActivity"/>
+                android:value="com.feup.cmov.busphone_passenger.ShowTicketsActivity" />
+        </activity>
+        <activity
+            android:name="com.feup.cmov.busphone_passenger.BuyTicktsActivity"
+            android:label="@string/title_activity_buy_ticktes" >
         </activity>
     </application>
 

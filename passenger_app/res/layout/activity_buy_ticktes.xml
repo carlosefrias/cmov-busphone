@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".BuyTicktesActivity" >
+
+    <Spinner
+        android:id="@+id/spinnerTypeofTickts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:entries="@array/ticket_types" />
+
+    <Spinner
+        android:id="@+id/spinnerNumberOfTicks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/number_of_tickets_to_buy" />
+
+    <Button
+        android:id="@+id/buttonBuyTickets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Buy_Tickets_Button" />
+
+</LinearLayout>
