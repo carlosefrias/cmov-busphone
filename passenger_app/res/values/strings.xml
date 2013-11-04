@@ -73,6 +73,8 @@
     <string name="title_show_list_activity">Here are all your unused tickets</string>
     <string name="validate_ticket_Button_text">Validate ticket</string>
     <string name="show_ticket_Button_text">Show details</string>
+    <string name="buy_more_tickets_button_text">Buy more tickets</string>
+    
 	<!-- Show ticket details screen (Alternative activity) -->
 	<string name="details_validate_button">Validate Ticket</string>
 	<string name="details_back_button">Go back</string>

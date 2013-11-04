@@ -13,6 +13,11 @@
 	    android:layout_height="match_parent">
 	    
 	</TableRow>
-    
+
+	<TextView
+	    android:id="@+id/dialog_show_ticket_text"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/title_dialog_single_ticket" />
 	
 </TableLayout>

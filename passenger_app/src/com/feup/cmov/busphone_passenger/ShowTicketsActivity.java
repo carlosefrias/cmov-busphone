@@ -1,12 +1,14 @@
 package com.feup.cmov.busphone_passenger;
 
+import java.util.ArrayList;
+
+import Entities.Ticket;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +16,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class ShowTicketsActivity extends Activity {
+public class ShowTicketsActivity extends Activity{
 
 	private static final int NEW_TICKET = 10;
 	private static final int SINGLE_TICKET = 20;
@@ -29,13 +35,17 @@ public class ShowTicketsActivity extends Activity {
 	private Bundle bundle;
 	private Intent newIntent;
 
-	// private final Spinner numberOfTickesSpinner, typesOfTicketSpinner;
+	
 	private String typeSelected = "T1";
 	private String[] types;
 	private int numberOfTicketsSelected = 1;
+	
 	private Spinner numberOfTickesSpinner, typesOfTicketSpinner;
+	private ListView ticketsListView;
+	private ArrayList<Ticket> listOfUnusedTickets;
+	private Ticket selectedTicket;
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,29 +54,54 @@ public class ShowTicketsActivity extends Activity {
 		// loading extras from the previous activity
 		bundle = this.getIntent().getExtras();
 		username = (String) bundle.getSerializable("username");
+		listOfUnusedTickets = (ArrayList<Ticket>) bundle.getSerializable("listUnusedTickets");
+		
+		//setting the default selected ticket
+		if(!listOfUnusedTickets.isEmpty()) 
+			selectedTicket = listOfUnusedTickets.get(0);
+		
+	
+		//Loading the items for the Spinner
+		String[] itemsOnListView = new String[listOfUnusedTickets.size()];
+    	for(int i = 0; i < listOfUnusedTickets.size(); i++){
+    		itemsOnListView[i] = listOfUnusedTickets.get(i).toStringShortVersion();
+    	}
+		// loading view objects
+		ticketsListView = (ListView) findViewById(R.id.Tickets_listView);
+		ticketsListView.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				selectedTicket = listOfUnusedTickets.get(arg2);		
+				Log.i("DEBUG", "clicou no "+selectedTicket.toStringShortVersion());
+				showDialog(SINGLE_TICKET);
+			}
+		});
+		
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_dropdown_item, itemsOnListView);
+        ticketsListView.setAdapter(adapter);
+		
 		// Creating the intent to next activity
 		bundle = new Bundle();
-		newIntent = new Intent(this.getApplicationContext(),
-				ShowTicketsActivity.class);
-
+		newIntent = new Intent(this.getApplicationContext(), ShowTicketsActivity.class);
+		/**
+		 *
 		TicketData tickets = new TicketData(this);
+		//public void addTicket(int nTickets, String[] uuids, String[] types){
+
+		//tickets.addTicket(nTickets, uuids, );
 		try {
 			Cursor cursor = tickets.getAllTickets();
 			startManagingCursor(cursor);
 
 			if (cursor.getCount() == 0) {
-				/*
-				 * Connects with server.
-				 */
+				
 			} else {
-				/*
-				 * Inflate all rows in list view.
-				 */
+
 			}
 		} finally {
 			tickets.close();
-		}
+		}*/
 	}
 
 	@Override
@@ -101,13 +136,12 @@ public class ShowTicketsActivity extends Activity {
 			Builder ntBuilder = new AlertDialog.Builder(this);
 			LayoutInflater ntInflater = getLayoutInflater();
 			ntBuilder.setTitle(R.string.title_dialog_new_ticket);
-			ntBuilder.setView(ntInflater.inflate(
-					R.layout.dialog_itemoption_new_ticket, null));
+			final View layoutView = ntInflater.inflate(R.layout.dialog_itemoption_new_ticket, null);
+			ntBuilder.setView(layoutView);
 			ntBuilder.setPositiveButton(R.string.buy_ticket_label,
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
-							// #################################################################
 							class BuyTickets implements Runnable {
 								private String type;
 								private int number;
@@ -116,7 +150,6 @@ public class ShowTicketsActivity extends Activity {
 									this.number = number;
 									this.type = type;
 								}
-
 								@Override
 								public void run() {
 									final boolean ticketsBought = RestAPI.buyTickets(type, number, username);
@@ -132,48 +165,24 @@ public class ShowTicketsActivity extends Activity {
 																+ type
 																+ " bought successfully!", Toast.LENGTH_LONG)
 														.show();
-												bundle.putSerializable(
-														"username", username);
-												newIntent.putExtras(bundle);
-												startActivity(newIntent);
 											} else {
 												// Unable to buy tickets
-												Toast.makeText(
-														getApplicationContext(),
-														"Unable to buy the tickets",
-														Toast.LENGTH_LONG)
-														.show();
+												Toast.makeText(getApplicationContext(), "Unable to buy the tickets", Toast.LENGTH_LONG).show();
 											}
 										}
 									});
 								}
 							}
 							// loading view objects
-							numberOfTickesSpinner = (Spinner) findViewById(R.id.numberOfTicketsToBuySpinner);
-							typesOfTicketSpinner = (Spinner) findViewById(R.id.ticketTypesSpinner);
+							numberOfTickesSpinner = (Spinner) layoutView.findViewById(R.id.numberOfTicketsToBuySpinner);
+							typesOfTicketSpinner = (Spinner) layoutView.findViewById(R.id.ticketTypesSpinner);
 							types = new String[] { "T1", "T2", "T3" };
-							Log.i("DEBUG", "numberOfTickesSpinner: "
-									+ numberOfTickesSpinner
-									+ " typesOfTicketSpinner: "
-									+ typesOfTicketSpinner);
-							if (numberOfTickesSpinner != null
-									&& typesOfTicketSpinner != null) {
-								// TODO: Os spinners dão sempre null NÃO
-								// PERCEBO!!!! RESOLVER ISTO
-								Log.i("DEBUG", "entra aqui...");
+							if (numberOfTickesSpinner != null && typesOfTicketSpinner != null) {
 								// Setting the listeners for the Spinners
-								numberOfTickesSpinner
-										.setOnItemSelectedListener(new NumberOfTicketsItemSelectedListener(
-												numberOfTickesSpinner));
-								typesOfTicketSpinner
-										.setOnItemSelectedListener(new TypeOfTicketItemSelectedListener(
-												typesOfTicketSpinner));
+								numberOfTickesSpinner.setOnItemSelectedListener(new MyOwnItemSelectedListener());
+								typesOfTicketSpinner.setOnItemSelectedListener(new MyOwnItemSelectedListener());
 							}
-							Log.i("DEBUG", "type: " + typeSelected + " num: "
-									+ numberOfTicketsSelected);
-							new Thread(new BuyTickets(typeSelected,
-									numberOfTicketsSelected)).start();
-							// ##################################################################
+							new Thread(new BuyTickets(typeSelected,	numberOfTicketsSelected)).start();
 						}
 					});
 
@@ -188,38 +197,38 @@ public class ShowTicketsActivity extends Activity {
 			Builder stBuilder = new AlertDialog.Builder(this);
 			LayoutInflater stInflater = getLayoutInflater();
 			stBuilder.setTitle(R.string.title_dialog_single_ticket);
-			stBuilder
-					.setView(
-							stInflater.inflate(
-									R.layout.dialog_itemoption_single_ticket,
-									null))
-					.setPositiveButton(R.string.validate_ticket_button_label,
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int id) {
-									/**
-									 * Implement runnable for retrieving single
-									 * ticket information
-									 * 
-									 * class SingleTicketRunnable implements
-									 * Runnable
-									 */
-									Intent validationIntent = new Intent(
-											getApplicationContext(),
-											ValidationActivity.class);
-									startActivity(validationIntent);
-									dismissDialog(SINGLE_TICKET);
-								}
-							})
-					.setNegativeButton(R.string.go_back_ticket_label,
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dismissDialog(SINGLE_TICKET);
-								}
-							});
+			final View layoutView2 = stInflater.inflate(R.layout.dialog_itemoption_single_ticket, null);
+			TextView ticketDetailsText = (TextView) layoutView2.findViewById(R.id.dialog_show_ticket_text);
+			ticketDetailsText.setText(selectedTicket.toString());
+			stBuilder.setView(layoutView2);
+			stBuilder.setPositiveButton(R.string.validate_ticket_button_label, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						/**
+						 * Implement runnable for retrieving single
+						 * ticket information
+						 * 
+						 * class SingleTicketRunnable implements
+						 * Runnable
+						 */		
+						// setting the listener
+						Intent validationIntent = new Intent(getApplicationContext(), ValidationActivity.class);
+						bundle.putSerializable("username", username);
+						bundle.putSerializable("listUnusedTickets", listOfUnusedTickets);
+						bundle.putSerializable("selectedTicket", selectedTicket);
+						validationIntent.putExtras(bundle);
+						startActivity(validationIntent);
+						dismissDialog(SINGLE_TICKET);
+					}
+				})
+				.setNegativeButton(R.string.go_back_ticket_label,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int id) {
+								dismissDialog(SINGLE_TICKET);
+							}
+						});
 			return stBuilder.create();
 		}
 
@@ -231,39 +240,15 @@ public class ShowTicketsActivity extends Activity {
 		showDialog(NEW_TICKET);
 	}
 
-	private class NumberOfTicketsItemSelectedListener implements
-			OnItemSelectedListener {
-		private Spinner numberOfTickesSpinner;
-
-		public NumberOfTicketsItemSelectedListener(Spinner numberOfTickesSpinner) {
-			this.numberOfTickesSpinner = numberOfTickesSpinner;
-		}
-
+	private class MyOwnItemSelectedListener implements OnItemSelectedListener {
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos,
 				long id) {
 			if (parent.getId() == numberOfTickesSpinner.getId()) {
-				numberOfTicketsSelected = pos + 1;
+				if(pos > 0) numberOfTicketsSelected = pos;
+				else numberOfTicketsSelected = 1;
 			}
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0) {
-		}
-	}
-
-	private class TypeOfTicketItemSelectedListener implements
-			OnItemSelectedListener {
-		private Spinner spinner;
-
-		public TypeOfTicketItemSelectedListener(Spinner spinner) {
-			this.spinner = spinner;
-		}
-
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int pos,
-				long id) {
-			if (parent.getId() == spinner.getId()) {
+			if (parent.getId() == typesOfTicketSpinner.getId()) {
 				typeSelected = types[pos];
 			}
 		}

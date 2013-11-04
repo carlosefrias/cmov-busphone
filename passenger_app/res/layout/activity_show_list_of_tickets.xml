@@ -33,4 +33,10 @@
         android:layout_height="wrap_content"
         android:text="@string/validate_ticket_Button_text" />
 
+    <Button
+        android:id="@+id/buy_more_tickets_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/buy_more_tickets_button_text" />
+
 </LinearLayout>

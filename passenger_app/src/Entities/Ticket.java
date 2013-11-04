@@ -47,9 +47,13 @@ public class Ticket implements Serializable{
 	}
 	@Override
 	public String toString(){
-		return "Ticket id:" + this.idticket + "\nType:" + this.type + "\nValidated:" + this.isvalidated + "\nChecked:" + this.ischecked + "\nTime of validation:" + this.timeofvalidation + "\nBus id:" + this.busid;
+		String bus = "" + busid;
+		String time = timeofvalidation;
+		if(busid == -1) bus = "none";
+		if(time.equals("1990/01/01 00:00:00")) time = "none";
+		return "Ticket id:" + this.idticket + "\nType:" + this.type + "\nValidated:" + this.isvalidated + "\nChecked:" + this.ischecked + "\nTime of validation:" + time + "\nBus id:" + bus;
 	}
 	public String toStringShortVersion(){
-		return "Ticket id:" + this.idticket+"\nType:" + this.type;
+		return "Ticket of type " + this.type;
 	}
 }

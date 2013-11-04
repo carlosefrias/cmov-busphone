@@ -19,8 +19,7 @@ import android.widget.Toast;
 public class ShowListOfTicketsActivity extends Activity implements OnItemSelectedListener, OnClickListener {
 
 	private Spinner listOfTicketsSpinner;
-	private Button validateButton;
-	private Button showDetailsButton;
+	private Button validateButton, showDetailsButton, buyticketsButton;
 	
 	private ArrayList<Ticket> listOfUnusedTickets;
 	private Ticket selectedTicket;
@@ -44,6 +43,7 @@ public class ShowListOfTicketsActivity extends Activity implements OnItemSelecte
 		listOfTicketsSpinner = (Spinner) findViewById(R.id.spinner_list_of_tickets);
 		validateButton = (Button) findViewById(R.id.validateTicketButton);
 		showDetailsButton = (Button) findViewById(R.id.show_details_button);
+		buyticketsButton = (Button) findViewById(R.id.buy_more_tickets_button);
 		
 		//Setting the default selected ticket
         if(!listOfUnusedTickets.isEmpty()) selectedTicket = listOfUnusedTickets.get(0);
@@ -64,6 +64,7 @@ public class ShowListOfTicketsActivity extends Activity implements OnItemSelecte
 		listOfTicketsSpinner.setOnItemSelectedListener(this);
 		validateButton.setOnClickListener(this);
 		showDetailsButton.setOnClickListener(this);
+		buyticketsButton.setOnClickListener(this);
 	}
 
 	@Override
@@ -103,6 +104,7 @@ public class ShowListOfTicketsActivity extends Activity implements OnItemSelecte
 			showDetailsIntent.putExtras(bundle);
 			startActivity(showDetailsIntent);			
 		}
+		//else if(v.getId())
 	}
 
 }

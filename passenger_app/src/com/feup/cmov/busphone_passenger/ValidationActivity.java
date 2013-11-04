@@ -16,6 +16,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -48,12 +49,31 @@ public class ValidationActivity extends Activity {
 		//getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		this.connection = new ValidationServiceConnection();
+		if(connection == null) Log.i("connection", "" + connection);
         this.replyTo = new Messenger(new IncomingResponseHandler());
         
-        if(ValidationActivity.this.isBound)
+        
+	}
+	
+	@Override
+	public void onStart(){
+		super.onStart();
+        
+        //Bind to the remote service
+        Intent intent = new Intent();
+        intent.setClassName("com.feup.cmov.busphone_terminal", "com.feup.cmov.busphone_terminal.ValidationService");
+        
+        getApplicationContext();
+        this.bindService(intent, this.connection, Context.BIND_AUTO_CREATE);
+        Log.i("debug", "*******" + messenger.toString());
+        //this.connection.
+		if(ValidationActivity.this.isBound)
         {
                 //Setup the message for invocation
                 Message message = Message.obtain(null, 1, 0, 0);
+                Bundle newBundle = new Bundle();
+                newBundle.putSerializable("ticket", selectedTicket);
+                message.setData(newBundle);
                 try
                 {
                         //Set the ReplyTo Messenger for processing the invocation response
@@ -75,24 +95,12 @@ public class ValidationActivity extends Activity {
 	}
 	
 	@Override
-	public void onStart(){
-		super.onStart();
-        
-        //Bind to the remote service
-        Intent intent = new Intent();
-        intent.setClassName("org.openmobster.remote.service.android.app", "org.openmobster.app.RemoteService");
-        
-        getApplicationContext();
-		this.bindService(intent, this.connection, Context.BIND_AUTO_CREATE);
-	}
-	
-	@Override
     protected void onStop() 
     {
             super.onStop();
             
             //Unbind if it is bound to the service
-            if(this.isBound)
+            if(ValidationActivity.this.isBound)
             {
                     this.unbindService(connection);
                     this.isBound = false;
