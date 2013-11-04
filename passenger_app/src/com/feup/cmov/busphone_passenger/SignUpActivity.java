@@ -40,8 +40,7 @@ public class SignUpActivity extends Activity implements OnClickListener {
 		fullNameText = (EditText) findViewById(R.id.newRealnameEditText);
 		creditCardNumText = (EditText) findViewById(R.id.newCreditCardNumberEditText);
 		creditCardTypeSpinner = (Spinner) findViewById(R.id.newCreditCardTypeSpinner);
-		//TODO: Implement a DatePicker for the selection of the validity of the credit card
-		//For now
+		
 		creditCardValDatePicker = (DatePicker) findViewById(R.id.datePicker);
 		createAccountButton = (Button) findViewById(R.id.signUpCreateAccountButton);
 		

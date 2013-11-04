@@ -1,7 +1,10 @@
 package com.feup.cmov.busphone_passenger;
 
+import java.util.ArrayList;
+
 import com.feup.cmov.busphone_passenger.RestAPI;
 
+import Entities.Ticket;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +19,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private EditText usernameText, passwordText;
 	private Button loginButton, signUpButton;
 	private static boolean logedIn = false;
+	private static ArrayList<Ticket> listUnusedTickets;
 	private Bundle bundle;
 	private Intent newIntent, signUpIntent;
 	@Override
@@ -30,7 +34,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		loginButton.setOnClickListener(this);
 		signUpButton.setOnClickListener(this);
 		bundle = new Bundle();
-		newIntent = new Intent(this.getApplicationContext(), BuyTicktsActivity.class);
+		newIntent = new Intent(this.getApplicationContext(), ShowListOfTicketsActivity.class);
 		signUpIntent = new Intent(this.getApplicationContext(), SignUpActivity.class);
 	}
 
@@ -51,14 +55,17 @@ public class LoginActivity extends Activity implements OnClickListener {
 			@Override
 			public void run() {
 				final boolean isValidLogin = RestAPI.validateLogin(user, pass);
+				final ArrayList<Ticket> unusedTicketList = RestAPI.getPassengerUnusedTickets(usernameText.getText().toString());
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						logedIn = isValidLogin;
+						listUnusedTickets = unusedTicketList;
 						if(logedIn){
 							//Login successful
 							Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
 							bundle.putSerializable("username", usernameText.getText().toString());
+							bundle.putSerializable("listUnusedTickets", listUnusedTickets);
 							newIntent.putExtras(bundle);
 							startActivity(newIntent);
 							

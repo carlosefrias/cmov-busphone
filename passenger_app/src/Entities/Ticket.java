@@ -47,9 +47,9 @@ public class Ticket implements Serializable{
 	}
 	@Override
 	public String toString(){
-		return "" + this.idticket + ", " + this.type + ", " + this.isvalidated + ", " + this.ischecked + ", " + this.timeofvalidation + ", " + this.busid;
+		return "Ticket id:" + this.idticket + "\nType:" + this.type + "\nValidated:" + this.isvalidated + "\nChecked:" + this.ischecked + "\nTime of validation:" + this.timeofvalidation + "\nBus id:" + this.busid;
 	}
 	public String toStringShortVersion(){
-		return "Ticket id:" + this.idticket;
+		return "Ticket id:" + this.idticket+"\nType:" + this.type;
 	}
 }

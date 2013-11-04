@@ -85,10 +85,11 @@ public class BuyTicktsActivity extends Activity implements OnClickListener{
 												+ " tickets of type "
 												+ type
 												+ " bought successfully!", Toast.LENGTH_LONG).show();
+							
+								bundle.putSerializable("username", username);
+								newIntent.putExtras(bundle);
+								startActivity(newIntent);
 							}
-							bundle.putSerializable("username", username);
-							newIntent.putExtras(bundle);
-							startActivity(newIntent);
 						} else {
 							// Unable to buy tickets
 							Toast.makeText(getApplicationContext(), "Unable to buy the tickets", Toast.LENGTH_LONG).show();

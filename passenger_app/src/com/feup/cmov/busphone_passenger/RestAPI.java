@@ -32,8 +32,8 @@ public class RestAPI {
 		//System.out.print(loadBusFromServer());
 		
 		//System.out.println(loadTicketListInBus(2));
-		Passenger p = new Passenger("user123", "pass", "full name", "VISA", 13377413, "11/666");
-		addUser(p);
+		//Passenger p = new Passenger("user123", "pass", "full name", "VISA", 13377413, "11/666");
+		//addUser(p);
 	}
 
 	/**
@@ -291,8 +291,8 @@ public class RestAPI {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static ArrayList<Ticket> getPassengerUnusedTickets(
-			Passenger passenger) {
+	public static ArrayList<Ticket> getPassengerUnusedTickets(String username) {
+		Passenger passenger = getPassenger(username);
 		ArrayList<Ticket> list = new ArrayList<Ticket>();
 
 		String allPassengerTickets = getJSONResponse(

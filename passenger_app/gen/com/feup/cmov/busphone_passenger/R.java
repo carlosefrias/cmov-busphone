@@ -29,55 +29,77 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f09001d;
-        public static final int confirmPasswordEditText=0x7f09000e;
-        public static final int confirmPasswordRow=0x7f09000d;
-        public static final int dummyButton=0x7f090001;
-        public static final int itemoption_detail_container=0x7f090002;
-        public static final int itemoption_single_ticket_fragment=0x7f09001b;
-        public static final int loginPasswordEditText=0x7f090007;
-        public static final int loginSignInButton=0x7f090008;
-        public static final int loginUsernameEditText=0x7f090005;
-        public static final int newCreditCardLabel=0x7f090011;
-        public static final int newCreditCardNumberEditText=0x7f090015;
-        public static final int newCreditCardNumberRow=0x7f090014;
-        public static final int newCreditCardTypeRow=0x7f090012;
-        public static final int newCreditCardTypeSpinner=0x7f090013;
-        public static final int newCreditCardValidityEditText=0x7f090017;
-        public static final int newCreditCardValidityRow=0x7f090016;
-        public static final int newPasswordEditText=0x7f09000c;
-        public static final int newPasswordRow=0x7f09000b;
-        public static final int newRealnameEditText=0x7f090010;
-        public static final int newRealnameRow=0x7f09000f;
-        public static final int newUsernameEditText=0x7f09000a;
-        public static final int newUsernameRow=0x7f090009;
-        public static final int new_ticket_dialog=0x7f09001e;
-        public static final int new_ticket_fragment=0x7f090018;
-        public static final int numberOfTicketsToBuySpinner=0x7f090019;
-        public static final int passwordRow=0x7f090006;
-        public static final int show_tickets_fragment=0x7f090000;
-        public static final int sign_out_action=0x7f09001f;
-        public static final int ticketTypesSpinner=0x7f09001a;
-        public static final int usernameRow=0x7f090004;
-        public static final int validateMessageLabel=0x7f090003;
-        public static final int validateTicketRow=0x7f09001c;
+        public static final int LinearLayout1=0x7f090000;
+        public static final int action_settings=0x7f09002c;
+        public static final int buttonBuyTickets=0x7f090003;
+        public static final int confirmPasswordEditText=0x7f09001a;
+        public static final int confirmPasswordRow=0x7f090019;
+        public static final int datePicker=0x7f090023;
+        public static final int details_back_button=0x7f090014;
+        public static final int details_validate_button=0x7f090013;
+        public static final int dummyButton=0x7f090005;
+        public static final int itemoption_detail_container=0x7f090006;
+        public static final int itemoption_single_ticket_fragment=0x7f09002a;
+        public static final int loginPasswordEditText=0x7f09000b;
+        public static final int loginSignInButton=0x7f09000c;
+        public static final int loginSignUpButton=0x7f09000d;
+        public static final int loginUsernameEditText=0x7f090009;
+        public static final int newCreditCardLabel=0x7f09001d;
+        public static final int newCreditCardNumberEditText=0x7f090021;
+        public static final int newCreditCardNumberRow=0x7f090020;
+        public static final int newCreditCardTypeRow=0x7f09001e;
+        public static final int newCreditCardTypeSpinner=0x7f09001f;
+        public static final int newCreditCardValidityRow=0x7f090022;
+        public static final int newPasswordEditText=0x7f090018;
+        public static final int newPasswordRow=0x7f090017;
+        public static final int newRealnameEditText=0x7f09001c;
+        public static final int newRealnameRow=0x7f09001b;
+        public static final int newUsernameEditText=0x7f090016;
+        public static final int newUsernameRow=0x7f090015;
+        public static final int new_ticket_dialog=0x7f09002d;
+        public static final int new_ticket_fragment=0x7f090025;
+        public static final int numberOfTicketsToBuySpinner=0x7f090027;
+        public static final int passwordRow=0x7f09000a;
+        public static final int show_details_button=0x7f090010;
+        public static final int show_tickets_fragment=0x7f090004;
+        public static final int signUpCreateAccountButton=0x7f090024;
+        public static final int sign_out_action=0x7f09002e;
+        public static final int spinnerNumberOfTicks=0x7f090002;
+        public static final int spinnerTypeofTickts=0x7f090001;
+        public static final int spinner_list_of_tickets=0x7f09000f;
+        public static final int tableRowTicketsNumberSpinner=0x7f090026;
+        public static final int tableRowTicketsTypeSpinner=0x7f090028;
+        public static final int textLabel_show_tickets=0x7f09000e;
+        public static final int ticketTypesSpinner=0x7f090029;
+        public static final int ticket_details_text=0x7f090012;
+        public static final int usernameRow=0x7f090008;
+        public static final int validateMessageLabel=0x7f090007;
+        public static final int validateTicketButton=0x7f090011;
+        public static final int validateTicketRow=0x7f09002b;
     }
     public static final class layout {
-        public static final int activity_itemoption_show_tickets=0x7f030000;
-        public static final int activity_itemoption_validation=0x7f030001;
-        public static final int activity_login=0x7f030002;
-        public static final int activity_sign_up=0x7f030003;
-        public static final int dialog_itemoption_new_ticket=0x7f030004;
-        public static final int dialog_itemoption_single_ticket=0x7f030005;
+        public static final int activity_buy_ticktes=0x7f030000;
+        public static final int activity_itemoption_show_tickets=0x7f030001;
+        public static final int activity_itemoption_validation=0x7f030002;
+        public static final int activity_login=0x7f030003;
+        public static final int activity_show_list_of_tickets=0x7f030004;
+        public static final int activity_show_ticket_detais=0x7f030005;
+        public static final int activity_sign_up=0x7f030006;
+        public static final int dialog_itemoption_new_ticket=0x7f030007;
+        public static final int dialog_itemoption_single_ticket=0x7f030008;
     }
     public static final class menu {
-        public static final int item_option_show_tickets=0x7f080000;
-        public static final int item_option_validation=0x7f080001;
-        public static final int login=0x7f080002;
-        public static final int main=0x7f080003;
-        public static final int sign_up=0x7f080004;
+        public static final int buy_ticktes=0x7f080000;
+        public static final int item_option_show_tickets=0x7f080001;
+        public static final int item_option_validation=0x7f080002;
+        public static final int login=0x7f080003;
+        public static final int main=0x7f080004;
+        public static final int show_list_of_tickets=0x7f080005;
+        public static final int show_ticket_detais=0x7f080006;
+        public static final int sign_up=0x7f080007;
     }
     public static final class string {
+        public static final int Buy_Tickets_Button=0x7f050017;
         public static final int action_settings=0x7f050001;
         /**  Global Strings 
          */
@@ -86,7 +108,12 @@ public final class R {
         public static final int cancel_buy_ticket_label=0x7f050016;
         public static final int confirm_password_label=0x7f05000a;
         public static final int create_account_label=0x7f050010;
-        public static final int go_back_ticket_label=0x7f050019;
+        public static final int details_back_button=0x7f05001f;
+        /**  Show ticket details screen (Alternative activity) 
+         */
+        public static final int details_validate_button=0x7f05001e;
+        public static final int go_back_ticket_label=0x7f05001a;
+        public static final int hello_world=0x7f050023;
         public static final int login_password_label=0x7f050004;
         /**  Sign In Screen 
          */
@@ -99,27 +126,35 @@ public final class R {
         public static final int new_realname_label=0x7f05000b;
         public static final int new_username_label=0x7f050008;
         public static final int see_tickets_option=0x7f050012;
+        public static final int show_ticket_Button_text=0x7f05001d;
         public static final int sign_in_button_text=0x7f050005;
         public static final int sign_out_label=0x7f050002;
         public static final int sign_up_button_text=0x7f050006;
+        public static final int title_activity_buy_ticktes=0x7f050022;
         /**  Main Screen 
          */
         public static final int title_activity_main=0x7f050011;
+        public static final int title_activity_show_list_of_tickets=0x7f050024;
+        public static final int title_activity_show_ticket_detais=0x7f050025;
         public static final int title_activity_show_tickets=0x7f050013;
         /**  Sign Up Screen 
          */
         public static final int title_activity_sign_up=0x7f050007;
         /**  Validation Screen 
          */
-        public static final int title_activity_validation=0x7f05001a;
+        public static final int title_activity_validation=0x7f050020;
         /**  New Ticket Specific Strings 
          */
         public static final int title_dialog_new_ticket=0x7f050014;
         /**  Single Ticket Screen 
          */
-        public static final int title_dialog_single_ticket=0x7f050017;
-        public static final int validate_message_label=0x7f05001b;
-        public static final int validate_ticket_button_label=0x7f050018;
+        public static final int title_dialog_single_ticket=0x7f050018;
+        /**  Show list of tickets Screen (Alternative activity) 
+         */
+        public static final int title_show_list_activity=0x7f05001b;
+        public static final int validate_message_label=0x7f050021;
+        public static final int validate_ticket_Button_text=0x7f05001c;
+        public static final int validate_ticket_button_label=0x7f050019;
     }
     public static final class style {
         /** 

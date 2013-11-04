@@ -1,5 +1,8 @@
 package com.feup.cmov.busphone_passenger;
 
+import java.util.ArrayList;
+
+import Entities.Ticket;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -24,10 +27,22 @@ public class ValidationActivity extends Activity {
     private ServiceConnection connection;//receives callbacks from bind and unbind invocations
     private Messenger replyTo = null; //invocation replies are processed by this Messenger
 	
+    private Bundle bundle;
+    private ArrayList<Ticket> listOfUnusedTickets;
+    private Ticket selectedTicket;
+    private String username;
+    
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_itemoption_validation);
+		
+		// loading extras from the previous activity
+		bundle = this.getIntent().getExtras();
+		username = (String) bundle.getSerializable("username");
+		listOfUnusedTickets = (ArrayList<Ticket>) bundle.getSerializable("listUnusedTickets");
+		selectedTicket = (Ticket) bundle.getSerializable("selectedTicket");
 		
 		// Show the Up button in the action bar.
 		//getActionBar().setDisplayHomeAsUpEnabled(true);
