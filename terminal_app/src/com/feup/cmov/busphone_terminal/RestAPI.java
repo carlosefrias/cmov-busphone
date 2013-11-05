@@ -1,6 +1,5 @@
 package com.feup.cmov.busphone_terminal;
 
-import android.annotation.SuppressLint;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,15 +7,14 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-//import Entities.Bus;
 import Entities.Ticket;
+import android.annotation.SuppressLint;
 
 public class RestAPI {
 	private static String urlRest = "http://172.29.109.8:8080/WebServiceX/webresources/";
@@ -95,6 +93,11 @@ public class RestAPI {
 				.equals("buscompany"));
 	}
 
+	/**
+	 * Function that retrieves from server the ticket with a given id
+	 * @param id
+	 * @return
+	 */
 	public static Ticket getTicketFromId(String id) {
 		String serverResponse = getJSONResponse("entities.ticket", "" + id);
 		Ticket ticket = new Ticket();
@@ -125,7 +128,8 @@ public class RestAPI {
 	 */
 	@SuppressWarnings("unchecked")
 	@SuppressLint("SimpleDateFormat")
-	public static boolean useTheTicket(Ticket ticket, int busid) {
+	public static boolean useTheTicket(String uuid) {
+		Ticket ticket = getTicketFromId(uuid);
 		if (ticket.isIsvalidated())
 			return false;
 		// create the JSON object to send
@@ -137,7 +141,7 @@ public class RestAPI {
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		obj.put("timeodvalidation", formatter.format(date).toString());
-		obj.put("idbus", busid);
+		obj.put("idbus", busNumber);
 
 		// send the updated ticket to server
 		HttpURLConnection con = null;
@@ -171,5 +175,12 @@ public class RestAPI {
 		}
 		return true;
 	}
-
+	
+	/**
+	 * Setter for the Bus number
+	 * @param number
+	 */
+	public static void setBusNumber(int number){
+		busNumber = number;
+	}
 }

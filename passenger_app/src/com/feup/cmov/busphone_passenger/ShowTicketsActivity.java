@@ -17,12 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public class ShowTicketsActivity extends Activity{
 
@@ -33,8 +33,6 @@ public class ShowTicketsActivity extends Activity{
 	private static boolean ticketsbought = false;
 
 	private Bundle bundle;
-	private Intent newIntent;
-
 	
 	private String typeSelected = "T1";
 	private String[] types;
@@ -80,28 +78,7 @@ public class ShowTicketsActivity extends Activity{
 		
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_dropdown_item, itemsOnListView);
         ticketsListView.setAdapter(adapter);
-		
-		// Creating the intent to next activity
-		bundle = new Bundle();
-		newIntent = new Intent(this.getApplicationContext(), ShowTicketsActivity.class);
-		/**
-		 *
-		TicketData tickets = new TicketData(this);
-		//public void addTicket(int nTickets, String[] uuids, String[] types){
 
-		//tickets.addTicket(nTickets, uuids, );
-		try {
-			Cursor cursor = tickets.getAllTickets();
-			startManagingCursor(cursor);
-
-			if (cursor.getCount() == 0) {
-				
-			} else {
-
-			}
-		} finally {
-			tickets.close();
-		}*/
 	}
 
 	@Override
@@ -203,14 +180,7 @@ public class ShowTicketsActivity extends Activity{
 			stBuilder.setView(layoutView2);
 			stBuilder.setPositiveButton(R.string.validate_ticket_button_label, new DialogInterface.OnClickListener() {
 					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						/**
-						 * Implement runnable for retrieving single
-						 * ticket information
-						 * 
-						 * class SingleTicketRunnable implements
-						 * Runnable
-						 */		
+					public void onClick(DialogInterface dialog, int id) {	
 						// setting the listener
 						Intent validationIntent = new Intent(getApplicationContext(), ValidationActivity.class);
 						bundle.putSerializable("username", username);

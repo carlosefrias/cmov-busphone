@@ -1,9 +1,8 @@
 package com.feup.cmov.busphone_terminal;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -11,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener {
-	private EditText usernameText, passwordText;
+	private EditText usernameText, passwordText, busNumberText;
 	private Button loginButton;
 	private static boolean logedIn = false;
 	private Bundle bundle;
@@ -23,6 +22,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		//loading the view objects
 		usernameText = (EditText) findViewById(R.id.loginUsernameEditText);
 		passwordText = (EditText) findViewById(R.id.loginPasswordEditText);
+		busNumberText = (EditText) findViewById(R.id.BusNumber);
 		loginButton = (Button) findViewById(R.id.loginSignInButton);
 		loginButton.setOnClickListener(this);
 		bundle = new Bundle();
@@ -38,8 +38,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 			}
 			@Override
 			public void run() {
-				Log.i("DEBUG", user + " " + pass);
 				final boolean isValidLogin = RestAPI.validateLogin(user, pass);
+				RestAPI.setBusNumber(Integer.parseInt(busNumberText.getText().toString()));
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -57,7 +57,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 					}
 				});
 			}
-			
 		}
 		if (v.getId() == R.id.loginSignInButton) {
 			String username = usernameText.getText().toString();
@@ -65,5 +64,4 @@ public class LoginActivity extends Activity implements OnClickListener {
 			new Thread(new LoginRunnable(username, password)).start();
 		}
 	}
-
 }
