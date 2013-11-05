@@ -102,6 +102,7 @@ public class ValidationActivity extends Activity {
 					wasValidated = validated;
 					if(wasValidated){
 						Toast.makeText(getApplicationContext(), "Ticket: " + ticketid + " validated with success!", Toast.LENGTH_LONG).show();
+						wasValidated = false;
 					}else{
 						Toast.makeText(getApplicationContext(), "Unable to validate ticket: " + ticketid, Toast.LENGTH_LONG).show();
 					}
