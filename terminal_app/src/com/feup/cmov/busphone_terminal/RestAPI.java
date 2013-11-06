@@ -78,7 +78,7 @@ public class RestAPI {
 	public static boolean validateLogin(String username, String password) {
 		String serverResponse = getJSONResponse("entities.inspector", username);
 		String returnedPassword = "FAILED_RESPONSE";
-		if (serverResponse != "Error")
+		if (serverResponse != "Error"){
 			try {
 				JSONParser parser = new JSONParser();
 				Object obj = parser.parse(serverResponse);
@@ -87,8 +87,10 @@ public class RestAPI {
 			} catch (Exception e) {
 				returnedPassword = "JSON Error";
 			}
-		return (password.equals(returnedPassword) && username
-				.equals("buscompany"));
+			return (password.equals(returnedPassword) && username
+					.equals("buscompany"));
+		}
+		else return false;
 	}
 
 	/**

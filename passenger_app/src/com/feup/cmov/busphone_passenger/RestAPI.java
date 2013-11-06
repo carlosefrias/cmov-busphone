@@ -83,7 +83,7 @@ public class RestAPI {
 	public static boolean validateLogin(String username, String password) {
 		String serverResponse = getJSONResponse("entities.passenger",username);
 		String returnedPassword = "FAILED_RESPONSE";
-		if (serverResponse != "Error")
+		if (serverResponse != "Error"){
 			try {
 				JSONParser parser = new JSONParser();
 				Object obj = parser.parse(serverResponse);
@@ -92,7 +92,9 @@ public class RestAPI {
 			} catch (Exception e) {
 				returnedPassword = "JSON Error";
 			}
-		return (password.equals(returnedPassword));
+			return (password.equals(returnedPassword));
+		}
+		else return false;
 	}
 
 	/**
@@ -338,7 +340,7 @@ public class RestAPI {
 	private static Ticket getTicketFromId(String id) {
 		String serverResponse = getJSONResponse("entities.ticket", "" + id);
 		Ticket ticket = new Ticket();
-		if (serverResponse != "Error")
+		if (serverResponse != "Error"){
 			try {
 				JSONParser parser = new JSONParser();
 				Object obj = parser.parse(serverResponse);
@@ -354,7 +356,9 @@ public class RestAPI {
 				System.err.println("Error while parsing JSON object");
 				e.printStackTrace();
 			}
-		return ticket;
+			return ticket;
+		}
+		return null;
 	}
 	
 	/**

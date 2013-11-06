@@ -45,7 +45,7 @@ public class ShowTicketsActivity extends Activity implements OnClickListener{
 	private Bundle bundle;
 	
 	private String typeSelected = "T1";
-	private String[] types;
+	private String[] types = new String[] {"", "T1", "T2", "T3" };
 	private int numberOfTicketsSelected = 1;
 	
 	private Spinner numberOfTickesSpinner, typesOfTicketSpinner;
@@ -86,7 +86,6 @@ public class ShowTicketsActivity extends Activity implements OnClickListener{
 		if(!listOfUnusedTickets.isEmpty()) 
 			selectedTicket = listOfUnusedTickets.get(0);
 		
-	
 		//Loading the items for the listView
 		String[] itemsOnListView = new String[listOfUnusedTickets.size()];
     	for(int i = 0; i < listOfUnusedTickets.size(); i++){
@@ -149,7 +148,6 @@ public class ShowTicketsActivity extends Activity implements OnClickListener{
 							class BuyTickets implements Runnable {
 								private String type;
 								private int number;
-
 								public BuyTickets(String type, int number) {
 									this.number = number;
 									this.type = type;
@@ -180,12 +178,9 @@ public class ShowTicketsActivity extends Activity implements OnClickListener{
 							// loading view objects
 							numberOfTickesSpinner = (Spinner) layoutView.findViewById(R.id.numberOfTicketsToBuySpinner);
 							typesOfTicketSpinner = (Spinner) layoutView.findViewById(R.id.ticketTypesSpinner);
-							types = new String[] { "T1", "T2", "T3" };
-							if (numberOfTickesSpinner != null && typesOfTicketSpinner != null) {
-								// Setting the listeners for the Spinners
-								numberOfTickesSpinner.setOnItemSelectedListener(new MyOwnItemSelectedListener());
-								typesOfTicketSpinner.setOnItemSelectedListener(new MyOwnItemSelectedListener());
-							}
+							// Setting the listeners for the Spinners
+							numberOfTickesSpinner.setOnItemSelectedListener(new MyOwnItemSelectedListener(1));
+							typesOfTicketSpinner.setOnItemSelectedListener(new MyOwnItemSelectedListener(2));
 							new Thread(new BuyTickets(typeSelected,	numberOfTicketsSelected)).start();
 						}
 					});
@@ -238,15 +233,21 @@ public class ShowTicketsActivity extends Activity implements OnClickListener{
 	}
 
 	private class MyOwnItemSelectedListener implements OnItemSelectedListener {
+		private int x;
+		MyOwnItemSelectedListener(int x){
+			this.x=x;
+		}
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos,
 				long id) {
-			if (parent.getId() == numberOfTickesSpinner.getId()) {
-				if(pos > 0) numberOfTicketsSelected = pos;
-				else numberOfTicketsSelected = 1;
+			if (x==1) {
+				//Nao entra aqui...?????
+				System.out.println("*************************************************************");
+				if(pos !=0 ) numberOfTicketsSelected = pos;
 			}
-			if (parent.getId() == typesOfTicketSpinner.getId()) {
-				typeSelected = types[pos];
+			if (x==2) {
+				System.out.println("************##############################*******************");
+				if(pos !=0 ) typeSelected = types[pos];
 			}
 		}
 
