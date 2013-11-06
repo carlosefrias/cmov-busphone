@@ -39,6 +39,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.feup.cmov.busphone_inspector.BusSelectionActivity" />
         </activity>
+        <activity
+            android:name="com.feup.cmov.busphone_inspector.Inspection_Activity"
+            android:label="@string/title_activity_inspection_" >
+        </activity>
     </application>
 
 </manifest>

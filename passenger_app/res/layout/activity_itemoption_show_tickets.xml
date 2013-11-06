@@ -8,10 +8,17 @@
     tools:context=".ItemOptionShowTicketsFragment"
     tools:ignore="MergeRootFrame">
 
-    <ListView
-        android:id="@+id/Tickets_listView"
+    <Button
+        android:id="@+id/inspectTicket"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+       	android:layout_height="100dip"
+       	android:layout_weight="1"
+        android:text="@string/inspect_ticket_button_text" />
+
+    <ListView
+        android:id="@+id/tickets_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1" >
     </ListView>
     

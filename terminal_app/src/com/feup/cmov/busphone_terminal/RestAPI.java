@@ -26,11 +26,9 @@ public class RestAPI {
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		/*Ticket ticket = getTicketFromId("novoid");
-		System.out.println(ticket);
-		validateTicket(ticket, busNumber);
-		ticket = getTicketFromId("novoid");
-		System.out.println(ticket);*/
+		//Ticket t = getTicketFromId("04a28289-187d-4596-b7aa-a1fb5604b0f3");
+		//useTheTicket("04a28289-187d-4596-b7aa-a1fb5604b0f3", "a");
+		setBusNumber(1123);
 	}
 
 	/**
@@ -128,7 +126,7 @@ public class RestAPI {
 	 */
 	@SuppressWarnings("unchecked")
 	@SuppressLint("SimpleDateFormat")
-	public static boolean useTheTicket(String uuid) {
+	public static boolean useTheTicket(String uuid, String username) {
 		Ticket ticket = getTicketFromId(uuid);
 		if (ticket.isIsvalidated())
 			return false;
@@ -142,11 +140,79 @@ public class RestAPI {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		obj.put("timeodvalidation", formatter.format(date).toString());
 		obj.put("idbus", busNumber);
+		
+		JSONObject obj2 = new JSONObject();
+		obj2.put("login", username);
+		obj2.put("ticketid", uuid);
+
+		// send the updated ticket to server
+		HttpURLConnection con = null, con2 = null;
+		try {
+			URL url = new URL(urlRest + "entities.ticket");
+			URL url2 = new URL(urlRest + "entities.lastticketused");
+
+			con = (HttpURLConnection) url.openConnection();
+			con2 = (HttpURLConnection) url2.openConnection();
+			con.setReadTimeout(10000);
+			con2.setReadTimeout(10000);
+			con.setConnectTimeout(15000);
+			con2.setConnectTimeout(15000);
+			con.setRequestMethod("PUT");
+			con2.setRequestMethod("PUT");
+			con.setDoOutput(true);
+			con2.setDoOutput(true);
+			con.setDoInput(true);
+			con2.setDoInput(true);
+			con.setRequestProperty("Content-Type", "application/json");
+			con2.setRequestProperty("Content-Type", "application/json");
+			String payload = obj.toJSONString();
+			String payload2 = obj2.toJSONString();
+			OutputStreamWriter writer = new OutputStreamWriter(
+					con.getOutputStream(), "UTF-8");
+			OutputStreamWriter writer2 = new OutputStreamWriter(
+					con2.getOutputStream(), "UTF-8");
+			writer.write(payload, 0, payload.length());
+			writer2.write(payload2, 0, payload2.length());
+			writer.close();
+			writer2.close();
+			con.connect();
+			con2.connect();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					con.getInputStream(), "UTF-8"));
+			BufferedReader reader2 = new BufferedReader(new InputStreamReader(
+					con2.getInputStream(), "UTF-8"));
+			payload = reader.readLine();
+			payload2 = reader.readLine();
+			reader.close();
+			reader2.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("Error while validating the ticket");
+			return false;
+		} finally {
+			if (con != null)
+				con.disconnect();
+			if (con2 != null)
+				con2.disconnect();
+		}
+		return true;
+	}
+	
+	/**
+	 * Setter for the Bus number
+	 * @param number
+	 */
+	@SuppressWarnings("unchecked")
+	public static void setBusNumber(int number){
+		busNumber = number;
+		// create the JSON object to send
+		JSONObject obj = new JSONObject();
+		obj.put("idbus", number);
 
 		// send the updated ticket to server
 		HttpURLConnection con = null;
 		try {
-			URL url = new URL(urlRest + "entities.ticket");
+			URL url = new URL(urlRest + "entities.bus");
 
 			con = (HttpURLConnection) url.openConnection();
 			con.setReadTimeout(10000);
@@ -167,20 +233,10 @@ public class RestAPI {
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.err.println("Error while validating the ticket");
-			return false;
+			System.err.println("Error while setting the bus number");
 		} finally {
 			if (con != null)
 				con.disconnect();
 		}
-		return true;
-	}
-	
-	/**
-	 * Setter for the Bus number
-	 * @param number
-	 */
-	public static void setBusNumber(int number){
-		busNumber = number;
 	}
 }

@@ -12,14 +12,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.UUID;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import Entities.Bus;
-import Entities.Passenger;
 import Entities.Ticket;
 import android.annotation.SuppressLint;
 
@@ -27,18 +25,13 @@ public class RestAPI {
 	private static String urlRest = "http://172.29.109.8:8080/WebServiceX/webresources/";
 
 	/**
-	 * 192.168.1.71 To be used as a testing function
+	 * To be used as a testing function
 	 * 
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		// http://172.29.109.8:8080/WebServiceX/webresources/entities.passenger/utilizador
-		//assenger p = getPassenger("utilizador");
-		// System.out.println(p);
-		// buyTickets("T3", 4, p);
-		//System.out.println("" + getPassengerUnusedTickets(p));
-		Ticket t = getTicketFromId("1fd33883-2678-4f4b-a430-3db6fcc8b4cc");
-		//useTheTicket(t, 2);
+		//ArrayList<Ticket> l = loadTicketListInBus(2);
+		//System.out.println(inspectTicket("04a28289-187d-4596-b7aa-a1fb5604b0f3", l));
 	}
 
 	/**
@@ -250,8 +243,7 @@ public class RestAPI {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static boolean inspectTicket(String ticketid,
-			ArrayList<Ticket> ticketList) {
+	public static boolean inspectTicket(String ticketid, ArrayList<Ticket> ticketList) {
 		// get the ticket from server
 		Ticket ticket = getTicketFromId(ticketid);
 		if (!containsTicket(ticketList, ticket))
@@ -305,8 +297,7 @@ public class RestAPI {
 	 * @param ticket
 	 * @return
 	 */
-	private static boolean containsTicket(ArrayList<Ticket> ticketList,
-			Ticket ticket) {
+	private static boolean containsTicket(ArrayList<Ticket> ticketList,Ticket ticket) {
 		boolean contains = false;
 		for (int i = 0; i < ticketList.size(); i++) {
 			if (ticketList.get(i).getIdticket().equals(ticket.getIdticket())) {

@@ -15,29 +15,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ValidationActivity extends Activity {
-	private ServerSocket ss = null;
-	private String mClientMsg = "";
+	private ServerSocket serverSocket = null;
+	private String messageFromPassenger = "";
 	
 	protected static final int MSG_ID = 0x1337;
 	private static final int SERVERPORT = 6000;
 	
 	private static boolean wasValidated = false;	
 	
-	TextView tv;
+	private TextView textView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_validation);
 
-		tv = (TextView) findViewById(R.id.validateMessageLabel);
-		tv.setText("Validate your ticket");
+		textView = (TextView) findViewById(R.id.validateMessageLabel);
+		textView.setText("Validate your ticket");
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				Socket s = null;
 				try {
-					ss = new ServerSocket(SERVERPORT);
+					serverSocket = new ServerSocket(SERVERPORT);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -46,28 +46,28 @@ public class ValidationActivity extends Activity {
 					m.what = MSG_ID;
 					try {
 						if (s == null)
-							s = ss.accept();
+							s = serverSocket.accept();
 						BufferedReader input = new BufferedReader(
 								new InputStreamReader(s.getInputStream()));
 						String st = null;
 						st = input.readLine();
-						mClientMsg = st;
+						messageFromPassenger = st;
 						myUpdateHandler.sendMessage(m);
+						s = null;
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
-
+				
 			}
 		}).start();
 	}
-
 	@Override
 	protected void onStop() {
 		super.onStop();
 		try {
 			// make sure you close the socket upon exiting
-			ss.close();
+			serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -79,10 +79,17 @@ public class ValidationActivity extends Activity {
 			switch (msg.what) {
 			case MSG_ID:
 				TextView tv = (TextView) findViewById(R.id.validateMessageLabel);
-				tv.setText(mClientMsg);
-				new Thread(new ValidateTicket(mClientMsg)).start();
+				
+				  String[] info;
+				  String delimiter = " ";
+				  info = messageFromPassenger.split(delimiter);
+				  if(!info[1].equals("inspect")){
+					  tv.setText(messageFromPassenger);
+					  new Thread(new ValidateTicket(info[0], info[1])).start();
+				  }
 				break;
 			default:
+				wasValidated = false;
 				break;
 			}
 			super.handleMessage(msg);
@@ -90,23 +97,25 @@ public class ValidationActivity extends Activity {
 	};
 	class ValidateTicket implements Runnable{
 		private String ticketid;
-		ValidateTicket(String tck){
+		private String username;
+		ValidateTicket(String tck, String usermane){
 			this.ticketid = tck;
+			this.username = usermane;
 		}
 		@Override
 		public void run(){
-			final boolean validated = RestAPI.useTheTicket(ticketid);
+			final boolean validated = RestAPI.useTheTicket(ticketid, username);
 			runOnUiThread(new Runnable() {				
 				@Override
 				public void run() {
 					wasValidated = validated;
 					if(wasValidated){
 						Toast.makeText(getApplicationContext(), "Ticket: " + ticketid + " validated with success!", Toast.LENGTH_LONG).show();
-						wasValidated = false;
 					}else{
 						Toast.makeText(getApplicationContext(), "Unable to validate ticket: " + ticketid, Toast.LENGTH_LONG).show();
 					}
-					tv.setText("Validate your ticket");					
+					textView.setText("Validate your ticket");					
+					wasValidated = false;
 				}
 			});
 		}		

@@ -61,27 +61,23 @@ public class ValidationActivity extends Activity {
 					e1.printStackTrace();
 				}
 				try {
-					String stringToSend = selectedTicket.getIdticket();
+					String stringToSend = selectedTicket.getIdticket() + " " + username;
 					PrintWriter out = new PrintWriter(new BufferedWriter(
 							new OutputStreamWriter(socket.getOutputStream())),
 							true);
-					out.println(stringToSend);
+					out.println(stringToSend); 
 					Log.d("Client", "Client sent message");
 
 				} catch (UnknownHostException e) {
-					// tv.setText("Error1");
 					e.printStackTrace();
 				} catch (IOException e) {
-					// tv.setText("Error2");
 					e.printStackTrace();
 				} catch (Exception e) {
-					// tv.setText("Error3");
 					e.printStackTrace();
-				}
-				listOfUnusedTickets.remove(selectedTicket);
+				}				
+				listOfUnusedTickets = rem(listOfUnusedTickets, selectedTicket);
 				bundle.putSerializable("username", username);
 				bundle.putSerializable("listUnusedTickets", listOfUnusedTickets);
-				//TODO:Store id of last ticket used
 				newIntent.putExtras(bundle);
 				startActivity(newIntent);				
 			}
@@ -111,5 +107,13 @@ public class ValidationActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	private ArrayList<Ticket> rem(ArrayList<Ticket> array, Ticket t){
+		ArrayList<Ticket> newarray = new ArrayList<Ticket>();
+		for(int i=0; i< array.size(); i++){
+			if(!array.get(i).getIdticket().equals(t.getIdticket()))
+				newarray.add(array.get(i));
+		}
+		return newarray;
 	}
 }

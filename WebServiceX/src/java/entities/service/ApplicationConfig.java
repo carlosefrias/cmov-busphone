@@ -38,6 +38,7 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(entities.service.BusFacadeREST.class);
         resources.add(entities.service.InspectorFacadeREST.class);
+        resources.add(entities.service.LastticketusedFacadeREST.class);
         resources.add(entities.service.PassengerFacadeREST.class);
         resources.add(entities.service.PassengerticketsFacadeREST.class);
         resources.add(entities.service.TicketFacadeREST.class);

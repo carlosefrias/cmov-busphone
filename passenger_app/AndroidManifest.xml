@@ -43,14 +43,6 @@
             android:name="com.feup.cmov.busphone_passenger.BuyTicktsActivity"
             android:label="@string/title_activity_buy_ticktes" >
         </activity>
-        <activity
-            android:name="com.feup.cmov.busphone_passenger.ShowListOfTicketsActivity"
-            android:label="@string/title_activity_show_list_of_tickets" >
-        </activity>
-        <activity
-            android:name="com.feup.cmov.busphone_passenger.ShowTicketDetaisActivity"
-            android:label="@string/title_activity_show_ticket_detais" >
-        </activity>
     </application>
 
 </manifest>

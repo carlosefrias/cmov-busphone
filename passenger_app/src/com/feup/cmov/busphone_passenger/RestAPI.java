@@ -34,6 +34,7 @@ public class RestAPI {
 		//System.out.println(loadTicketListInBus(2));
 		//Passenger p = new Passenger("user123", "pass", "full name", "VISA", 13377413, "11/666");
 		//addUser(p);
+		//System.out.println(getLastUsedTicket("a"));
 	}
 
 	/**
@@ -354,5 +355,27 @@ public class RestAPI {
 				e.printStackTrace();
 			}
 		return ticket;
+	}
+	
+	/**
+	 * Function that returns from server the last used ticket by the passenger
+	 * @param username
+	 * @return
+	 */
+	public static Ticket getLastUsedTicket(String username){
+		String lastTicketusedRow = getJSONResponse("entities.lastticketused", username);
+		if (!lastTicketusedRow.equals("Error"))
+			try {
+				JSONParser parser = new JSONParser();
+				Object obj = parser.parse(lastTicketusedRow);
+				JSONObject jsonObject = (JSONObject) obj;
+				Ticket lasttick = getTicketFromId((String) jsonObject.get("ticketid"));
+				return lasttick;
+			} catch (Exception e) {
+				System.err.println("error while retrieving passenger unused tickets");
+				e.printStackTrace();
+				return null;
+			}
+		return null;
 	}
 }

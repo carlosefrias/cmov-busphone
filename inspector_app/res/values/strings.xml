@@ -23,5 +23,6 @@
     <string name="ticket_selection_2nd_label">Or select a ticket from the list</string>
     <string name="ticket_selection_Validation_label">\"\"</string>
     <string name="title_activity_select_ticket">SelectTicketActivity</string>
+    <string name="title_activity_inspection_">Inspection_Activity</string>
 
 </resources>

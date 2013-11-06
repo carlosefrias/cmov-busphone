@@ -1,5 +1,12 @@
 package com.feup.cmov.busphone_passenger;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import Entities.Ticket;
@@ -15,22 +22,25 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ShowTicketsActivity extends Activity{
+public class ShowTicketsActivity extends Activity implements OnClickListener{
 
 	private static final int NEW_TICKET = 10;
 	private static final int SINGLE_TICKET = 20;
 
 	private String username;
 	private static boolean ticketsbought = false;
+	private static Ticket lastTicketUsed = null;
 
 	private Bundle bundle;
 	
@@ -39,11 +49,18 @@ public class ShowTicketsActivity extends Activity{
 	private int numberOfTicketsSelected = 1;
 	
 	private Spinner numberOfTickesSpinner, typesOfTicketSpinner;
+	private Button inspectButton;
 	private ListView ticketsListView;
 	private ArrayList<Ticket> listOfUnusedTickets;
 	private Ticket selectedTicket;
+	
+	private Socket socket;
+	private String serverIpAddress = "10.0.2.2";
+	// AND THAT'S MY DEV'T MACHINE WHERE PACKETS TO
+	// PORT 5000 GET REDIRECTED TO THE SERVER EMULATOR'S
+	// PORT 6000
+	private static final int REDIRECTED_SERVERPORT = 5000;
 
-	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,22 +69,34 @@ public class ShowTicketsActivity extends Activity{
 		// loading extras from the previous activity
 		bundle = this.getIntent().getExtras();
 		username = (String) bundle.getSerializable("username");
+		
+		// loading view objects
+		inspectButton = (Button) findViewById(R.id.inspectTicket);
+		inspectButton.setOnClickListener(this);
+
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void onStart(){
+		super.onStart();
 		listOfUnusedTickets = (ArrayList<Ticket>) bundle.getSerializable("listUnusedTickets");
+		Log.i("Show", ""+listOfUnusedTickets.size());
 		
 		//setting the default selected ticket
 		if(!listOfUnusedTickets.isEmpty()) 
 			selectedTicket = listOfUnusedTickets.get(0);
 		
 	
-		//Loading the items for the Spinner
+		//Loading the items for the listView
 		String[] itemsOnListView = new String[listOfUnusedTickets.size()];
     	for(int i = 0; i < listOfUnusedTickets.size(); i++){
     		itemsOnListView[i] = listOfUnusedTickets.get(i).toStringShortVersion();
     	}
 		// loading view objects
-		ticketsListView = (ListView) findViewById(R.id.Tickets_listView);
+		ticketsListView = (ListView) findViewById(R.id.tickets_list_view);
 		ticketsListView.setOnItemClickListener(new OnItemClickListener() {
 
+			@SuppressWarnings("deprecation")
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				selectedTicket = listOfUnusedTickets.get(arg2);		
@@ -77,8 +106,7 @@ public class ShowTicketsActivity extends Activity{
 		});
 		
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_dropdown_item, itemsOnListView);
-        ticketsListView.setAdapter(adapter);
-
+        ticketsListView.setAdapter(adapter);		
 	}
 
 	@Override
@@ -96,8 +124,7 @@ public class ShowTicketsActivity extends Activity{
 			showDialog(NEW_TICKET);
 			return true;
 		case R.id.sign_out_action:
-			Intent validationIntent = new Intent(getApplicationContext(),
-					LoginActivity.class);
+			Intent validationIntent = new Intent(getApplicationContext(), LoginActivity.class);
 			startActivity(validationIntent);
 			return true;
 		default:
@@ -226,5 +253,56 @@ public class ShowTicketsActivity extends Activity{
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
 		}
+	}
+
+	@Override
+	
+	public void onClick(View arg0) {
+		if(arg0.getId() == inspectButton.getId()){
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					final Ticket ticket = RestAPI.getLastUsedTicket(username);
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							lastTicketUsed = ticket;
+							if(lastTicketUsed != null){
+								new Thread(new Runnable() {
+									@Override
+									public void run() {
+										try {
+											InetAddress serverAddr = InetAddress.getByName(serverIpAddress);
+											socket = new Socket(serverAddr, REDIRECTED_SERVERPORT);
+										} catch (UnknownHostException e1) {
+											e1.printStackTrace();
+										} catch (IOException e1) {
+											e1.printStackTrace();
+										}
+										try {
+											String stringToSend = lastTicketUsed.getIdticket() + " " + "inspect";
+											PrintWriter out = new PrintWriter(new BufferedWriter(
+													new OutputStreamWriter(socket.getOutputStream())),
+													true);
+											out.println(stringToSend); 
+											Log.d("Client", "Client sent message");
+
+										} catch (UnknownHostException e) {
+											e.printStackTrace();
+										} catch (IOException e) {
+											e.printStackTrace();
+										} catch (Exception e) {
+											e.printStackTrace();
+										}			
+									}
+								}).start();
+								// Ticket sent for inspection successfully
+								Toast.makeText(getApplicationContext(), "Ticket: " + lastTicketUsed.getIdticket() + " sent for inspection" , Toast.LENGTH_LONG).show();
+							}
+						}
+					});
+				}
+			}).start();
+		};
 	}
 }
