@@ -25,7 +25,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -43,12 +42,13 @@ public class ShowTicketsActivity extends Activity implements OnClickListener{
 	private static Ticket lastTicketUsed = null;
 
 	private Bundle bundle;
+	private Intent newIntent;
 	
-	private String typeSelected = "T1";
+	private String typeSelected = "";
 	private String[] types = new String[] {"", "T1", "T2", "T3" };
-	private int numberOfTicketsSelected = 1;
+	private int numberOfTicketsSelected = 0;
 	
-	private Spinner numberOfTickesSpinner, typesOfTicketSpinner;
+	//private static Spinner numberOfTickesSpinner, typesOfTicketSpinner;
 	private Button inspectButton;
 	private ListView ticketsListView;
 	private ArrayList<Ticket> listOfUnusedTickets;
@@ -73,7 +73,7 @@ public class ShowTicketsActivity extends Activity implements OnClickListener{
 		// loading view objects
 		inspectButton = (Button) findViewById(R.id.inspectTicket);
 		inspectButton.setOnClickListener(this);
-
+		newIntent = new Intent(this.getApplicationContext(), ShowTicketsActivity.class);
 	}
 	@SuppressWarnings("unchecked")
 	@Override
@@ -155,18 +155,26 @@ public class ShowTicketsActivity extends Activity implements OnClickListener{
 								@Override
 								public void run() {
 									final boolean ticketsBought = RestAPI.buyTickets(type, number, username);
+									final ArrayList<Ticket> unusedTicketList = RestAPI.getPassengerUnusedTickets(username);
 									runOnUiThread(new Runnable() {
 										@Override
 										public void run() {
 											ticketsbought = ticketsBought;
 											if (ticketsbought) {
 												// Tickets bought successfully
-												Toast.makeText(getApplicationContext(), "" 
-																+ number
-																+ " tickets of type "
-																+ type
-																+ " bought successfully!", Toast.LENGTH_LONG)
-														.show();
+												if(numberOfTicketsSelected > 0 && typeSelected != ""){
+													Toast.makeText(getApplicationContext(), "" 
+																	+ number
+																	+ " tickets of type "
+																	+ type
+																	+ " bought successfully!", Toast.LENGTH_LONG)
+															.show();
+													bundle.putSerializable("username", username);
+													bundle.putSerializable("listUnusedTickets", unusedTicketList);
+													newIntent.putExtras(bundle);
+													startActivity(newIntent);
+												}else
+													Toast.makeText(getApplicationContext(), "Select type and number of tickets to buy.", Toast.LENGTH_LONG).show();
 											} else {
 												// Unable to buy tickets
 												Toast.makeText(getApplicationContext(), "Unable to buy the tickets", Toast.LENGTH_LONG).show();
@@ -176,15 +184,15 @@ public class ShowTicketsActivity extends Activity implements OnClickListener{
 								}
 							}
 							// loading view objects
-							numberOfTickesSpinner = (Spinner) layoutView.findViewById(R.id.numberOfTicketsToBuySpinner);
-							typesOfTicketSpinner = (Spinner) layoutView.findViewById(R.id.ticketTypesSpinner);
-							// Setting the listeners for the Spinners
-							numberOfTickesSpinner.setOnItemSelectedListener(new MyOwnItemSelectedListener(1));
-							typesOfTicketSpinner.setOnItemSelectedListener(new MyOwnItemSelectedListener(2));
+							Spinner numberOfTickesSpinner = (Spinner) layoutView.findViewById(R.id.numberOfTicketsToBuySpinner);
+							Spinner typesOfTicketSpinner = (Spinner) layoutView.findViewById(R.id.ticketTypesSpinner);
+							if(typesOfTicketSpinner.getSelectedItemPosition() != 0)
+								typeSelected = types[typesOfTicketSpinner.getSelectedItemPosition()];
+							if(numberOfTickesSpinner.getSelectedItemPosition() != 0)
+								numberOfTicketsSelected = numberOfTickesSpinner.getSelectedItemPosition();
 							new Thread(new BuyTickets(typeSelected,	numberOfTicketsSelected)).start();
 						}
 					});
-
 			ntBuilder.setNegativeButton(R.string.cancel_buy_ticket_label,new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
@@ -231,33 +239,8 @@ public class ShowTicketsActivity extends Activity implements OnClickListener{
 	public void dummyAction(View view) {
 		showDialog(NEW_TICKET);
 	}
-
-	private class MyOwnItemSelectedListener implements OnItemSelectedListener {
-		private int x;
-		MyOwnItemSelectedListener(int x){
-			this.x=x;
-		}
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int pos,
-				long id) {
-			if (x==1) {
-				//Nao entra aqui...?????
-				System.out.println("*************************************************************");
-				if(pos !=0 ) numberOfTicketsSelected = pos;
-			}
-			if (x==2) {
-				System.out.println("************##############################*******************");
-				if(pos !=0 ) typeSelected = types[pos];
-			}
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0) {
-		}
-	}
-
-	@Override
 	
+	@Override
 	public void onClick(View arg0) {
 		if(arg0.getId() == inspectButton.getId()){
 			new Thread(new Runnable() {
