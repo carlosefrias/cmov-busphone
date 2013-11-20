@@ -39,7 +39,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			@Override
 			public void run() {
 				final boolean isValidLogin = RestAPI.validateLogin(user, pass);
-				RestAPI.setBusNumber(Integer.parseInt(busNumberText.getText().toString()));
+				if(isValidLogin) RestAPI.setBusNumber(Integer.parseInt(busNumberText.getText().toString()));
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {

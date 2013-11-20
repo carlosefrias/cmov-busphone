@@ -30,7 +30,8 @@ public class RestAPI {
 		//System.out.println(validateLogin("insp", "coiso"));
 		//System.out.println(validateLogin("insp", "pass2"));
 		//System.out.print(loadBusFromServer());
-		
+		//validateLogin("user", "pass");
+		getPassengerUnusedTickets("user");
 		//System.out.println(loadTicketListInBus(2));
 		//Passenger p = new Passenger("user123", "pass", "full name", "VISA", 13377413, "11/666");
 		//addUser(p);
@@ -83,7 +84,8 @@ public class RestAPI {
 	public static boolean validateLogin(String username, String password) {
 		String serverResponse = getJSONResponse("entities.passenger",username);
 		String returnedPassword = "FAILED_RESPONSE";
-		if (serverResponse != "Error"){
+		if(serverResponse == null) return false;
+		if (!serverResponse.equals("Error")){
 			try {
 				JSONParser parser = new JSONParser();
 				Object obj = parser.parse(serverResponse);
@@ -157,6 +159,7 @@ public class RestAPI {
 	 */
 	private static Passenger getPassenger(String username) {
 		String serverresponse = getJSONResponse("entities.passenger", username);
+		if(serverresponse == null) return null;
 		if (!serverresponse.equals("Error")) {
 			try {
 				JSONParser parser = new JSONParser();
@@ -297,10 +300,9 @@ public class RestAPI {
 	public static ArrayList<Ticket> getPassengerUnusedTickets(String username) {
 		Passenger passenger = getPassenger(username);
 		ArrayList<Ticket> list = new ArrayList<Ticket>();
-
+		if(passenger == null) return list;
 		String allPassengerTickets = getJSONResponse(
 				"entities.passengertickets", "");
-
 		if (!allPassengerTickets.equals("Error"))
 			try {
 				JSONParser parser = new JSONParser();
